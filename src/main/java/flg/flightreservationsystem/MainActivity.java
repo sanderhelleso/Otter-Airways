@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     void initializeCreateAccount() {
 
         // fetch element by id
-        final Button CREATE_ACCOUNT = (Button) findViewById(R.id.create_account);
+        final Button CREATE_ACCOUNT = findViewById(R.id.create_account);
         CREATE_ACCOUNT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     void initializeReserveSeat() {
 
         // fetch element by id
-        final Button RESERVE_SEAT = (Button) findViewById(R.id.reserve_seat);
+        final Button RESERVE_SEAT = findViewById(R.id.reserve_seat);
         RESERVE_SEAT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     void initializeCancelReservation() {
 
         // fetch element by id
-        final Button CANCEL_RESERVATION = (Button) findViewById(R.id.cancel_reservation);
+        final Button CANCEL_RESERVATION =  findViewById(R.id.cancel_reservation);
         CANCEL_RESERVATION.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     void initializeManageSystem() {
 
         // fetch element by id
-        final Button MANAGE_SYSTEM = (Button) findViewById(R.id.manage_system);
+        final Button MANAGE_SYSTEM = findViewById(R.id.manage_system);
         MANAGE_SYSTEM.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
