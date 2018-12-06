@@ -21,14 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.CreateAccountActivity"
-            android:label="@string/title_activity_create_account" />
         <activity android:name=".activities.ReserveSeatActivity" />
         <activity android:name=".activities.CancelReservationActivity" />
-        <activity
-            android:name=".activities.ManageSystemActivity"
-            android:label="@string/title_activity_manage_system_activirt"></activity>
+        <activity android:name=".activities.CreateAccountActivity" />
+        <activity android:name=".activities.ManageSystemActivity"></activity>
     </application>
 
 </manifest>
