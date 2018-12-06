@@ -1,11 +1,14 @@
 package flg.flightreservationsystem.activities;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,7 +50,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                 // if something is wrong with the properties, display error message
                 else {
-                    displayError();
+                    displayError(0);
                 }
             }
         });
@@ -85,7 +88,54 @@ public class CreateAccountActivity extends AppCompatActivity {
         Log.i("account", "ACCOUNT CREATION SUCCESSFULL");
     }
 
-    private void displayError() {
-        Log.i("account", "ACCOUNT CREATION FAILED");
+    /*
+        ------- DISPLAY ERROR MESSAGE DEPENDING ON EVENT -------
+                     0 = invalid credential format
+                     1 = username allready taken
+        --------------------------------------------------------
+        */
+    private void displayError(final int type) {
+
+        // instantiate a new sb
+        StringBuilder message = new StringBuilder();
+        switch (type) {
+            case 0:
+
+                // set error message for invalid credential format
+                message.append("InvalidFormat\n\n");
+                message.append("Fields need to have at least:\n");
+                message.append("- One special symbol\n");
+                message.append("- One number\n");
+                message.append("- One uppercase alphabet, \n");
+                message.append("- One lowercase alphabet");
+                break;
+
+            case 1:
+                break;
+        }
+
+        // display sat message
+        errorMessage(message);
+    }
+
+    private void errorMessage(final StringBuilder message) {
+
+        // create a new alert dialog
+        new AlertDialog.Builder(this)
+
+                //set icon
+                .setIcon(android.R.drawable.ic_dialog_alert)
+
+                //set title
+                .setTitle("Error")
+
+                //set message
+                .setMessage(message)
+
+                // create "confirm" button
+                .setPositiveButton("Confirm", null)
+
+                // display alert
+                .show();
     }
 }
