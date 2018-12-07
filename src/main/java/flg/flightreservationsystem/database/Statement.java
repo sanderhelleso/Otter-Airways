@@ -10,10 +10,10 @@ public class Statement {
     private final String INSERT_INTO = "INSERT INTO ";
 
     // base database table names
-    private final String LOGS_TABLE =   "logs ";
-    final String CUSTOMERS_TABLE =      "customers ";
-    final String FLIGHTS_TABLE =        "flights ";
-    final String RESERVATIONS_TABLE =   "reservations ";
+    private final String LOGS_TABLE =           "logs ";
+    private final String CUSTOMERS_TABLE =      "customers ";
+    private final String FLIGHTS_TABLE =        "flights ";
+    private final String RESERVATIONS_TABLE =   "reservations ";
 
     /**
      * Schema and create statement for "logs" table
@@ -122,54 +122,83 @@ public class Statement {
 
         // admin statement
         String insertCustomer = INSERT_INTO + CUSTOMERS_TABLE + COLUMNS +
-                " VALUES " +
-                "(" +
-                    "\"!admiM2\", " +
-                    "\"!admiM2\", " +
-                    "true" +
-                ");";
+                " VALUES (\"!admiM2\", \"!admiM2\", true);";
 
         // add statement to list
         STATEMENTS.add(insertCustomer);
 
         // customer 1 statement
         insertCustomer = INSERT_INTO + CUSTOMERS_TABLE + COLUMNS +
-                " VALUES " +
-                "(" +
-                    "\"A@lice5\", " +
-                    "\"@cSit100\", " +
-                    "false" +
-                ");";
+                " VALUES (\"A@lice5\", \"@cSit100\", false);";
 
         // add statement to list
         STATEMENTS.add(insertCustomer);
 
         // customer 2 statement
         insertCustomer = INSERT_INTO + CUSTOMERS_TABLE + COLUMNS +
-                " VALUES " +
-                "(" +
-                    "\"$BriAn7\", " +
-                    "\"123aBc##\", " +
-                    "false" +
-                ");";
+                " VALUES (\"$BriAn7\", \"123aBc##\", false);";
 
         // add statement to list
         STATEMENTS.add(insertCustomer);
 
         // customer 3 statement
         insertCustomer = INSERT_INTO + CUSTOMERS_TABLE + COLUMNS +
-                " VALUES " +
-                "(" +
-                    "\"!chriS12\", " +
-                    "\"CHrIS12\", " +
-                    "false" +
-                ");";
+                " VALUES (\"!chriS12\", \"CHrIS12\", false);";
 
         // add statement to list
         STATEMENTS.add(insertCustomer);
 
         // return list with statements
         return STATEMENTS;
+    }
 
+    /**
+     * insert default "flights"
+     */
+    public ArrayList<String> insertDefaultFlights() {
+
+        // declare a new arraylist to hold statements
+        final ArrayList<String> STATEMENTS = new ArrayList<>();
+
+        // table columns
+        final String COLUMNS = "(name, departure, destination, time, capacity, reserved, price) ";
+
+        // flight 1 statement
+        String insertCustomer = INSERT_INTO + FLIGHTS_TABLE + COLUMNS +
+                " VALUES (\"Otter101\", \"Monterey\", \"Los Angeles\", 1030, 10, 150.00, 0);";
+
+        // add statement to list
+        STATEMENTS.add(insertCustomer);
+
+        // flight 2 statement
+        insertCustomer = INSERT_INTO + FLIGHTS_TABLE + COLUMNS +
+                " VALUES (\"Otter102\", \"Los Angeles\", \"Monterey\", 1300, 10, 150.00, 0);";
+
+        // add statement to list
+        STATEMENTS.add(insertCustomer);
+
+        // flight 3 statement
+        insertCustomer = INSERT_INTO + FLIGHTS_TABLE + COLUMNS +
+                " VALUES (\"Otter201\", \"Monterey\", \"Seattle\", 1100, 5, 200.50, 0);";
+
+        // add statement to list
+        STATEMENTS.add(insertCustomer);
+
+        // flight 4 statement
+        insertCustomer = INSERT_INTO + FLIGHTS_TABLE + COLUMNS +
+                " VALUES (\"Otter205\", \"Monterey\", \"Seattle\", 1545, 15, 150.00, 0);";
+
+        // add statement to list
+        STATEMENTS.add(insertCustomer);
+
+        // flight 5 statement
+        insertCustomer = INSERT_INTO + FLIGHTS_TABLE + COLUMNS +
+                " VALUES (\"Otter202\", \"Seattle\", \"Monterey\", 1410, 5, 200.00, 0);";
+
+        // add statement to list
+        STATEMENTS.add(insertCustomer);
+
+        // return list with statements
+        return STATEMENTS;
     }
 }

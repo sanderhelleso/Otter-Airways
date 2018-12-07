@@ -21,8 +21,8 @@ public class Database extends SQLiteOpenHelper {
 
 
     /**
-     * The following method creates and setup the database
-     * schema and it`s corresponding data for the tables
+     * The following method creates and setup the database schema
+     * and insert it`s corresponding defaulr data for the tables
      * @param db SQLiteDatabase object
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -35,10 +35,9 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(STATEMENT.createFlightsTable());
         db.execSQL(STATEMENT.createReservationsTable());
 
-        // insert default users
+        // insert default users and flights
         STATEMENT.insertDefaultCustomers().forEach((stmt) -> db.execSQL(stmt));
-
-        
+        STATEMENT.insertDefaultFlights().forEach((stmt) -> db.execSQL(stmt));
     }
 
 
