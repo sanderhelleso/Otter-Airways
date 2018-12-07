@@ -102,11 +102,11 @@ public class CreateAccountActivity extends AppCompatActivity {
             case 0:
 
                 // set error message for invalid credential format
-                message.append("InvalidFormat\n\n");
+                message.append("Invalid Format\n\n");
                 message.append("Fields need to have at least:\n");
                 message.append("- One special symbol\n");
                 message.append("- One number\n");
-                message.append("- One uppercase alphabet, \n");
+                message.append("- One uppercase alphabet\n");
                 message.append("- One lowercase alphabet");
                 break;
 
