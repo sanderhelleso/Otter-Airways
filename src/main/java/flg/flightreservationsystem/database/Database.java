@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 public class Database extends SQLiteOpenHelper {
 
@@ -38,6 +39,8 @@ public class Database extends SQLiteOpenHelper {
         // insert default users and flights
         STATEMENT.insertDefaultCustomers().forEach((stmt) -> db.execSQL(stmt));
         STATEMENT.insertDefaultFlights().forEach((stmt) -> db.execSQL(stmt));
+
+        Log.i("DB_CREATED", "Database created...");
     }
 
 
@@ -52,4 +55,17 @@ public class Database extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
+
+
+    /**
+     * getter and setters for database object
+     */
+
+    public SQLiteDatabase getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(SQLiteDatabase database) {
+        this.database = database;
+    }
 }

@@ -93,7 +93,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                      0 = invalid credential format
                      1 = username allready taken
         --------------------------------------------------------
-        */
+     */
     private void displayError(final int type) {
 
         // instantiate a new sb

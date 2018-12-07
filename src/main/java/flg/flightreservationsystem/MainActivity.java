@@ -10,6 +10,7 @@ import flg.flightreservationsystem.activities.CancelReservationActivity;
 import flg.flightreservationsystem.activities.CreateAccountActivity;
 import flg.flightreservationsystem.activities.ManageSystemActivity;
 import flg.flightreservationsystem.activities.ReserveSeatActivity;
+import flg.flightreservationsystem.database.Database;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,6 +18,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // initialize database
+        final Database DB = new Database(this);
 
         // initialize main menu
         initializeMenu();
