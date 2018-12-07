@@ -26,8 +26,9 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        // create log table
+        // create database tables
         db.execSQL(QUERY.createLogTable());
+        db.execSQL(QUERY.createCustomersTable());
     }
 
 
