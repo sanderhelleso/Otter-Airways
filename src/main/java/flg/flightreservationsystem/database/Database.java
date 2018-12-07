@@ -21,14 +21,16 @@ public class Database extends SQLiteOpenHelper {
     /**
      * The following method creates and setup the database
      * schema and it`s corresponding data for the tables
-     * @param db
+     * @param db SQLiteDatabase object
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
 
         // create database tables
-        db.execSQL(QUERY.createLogTable());
+        db.execSQL(QUERY.createLogsTable());
         db.execSQL(QUERY.createCustomersTable());
+        db.execSQL(QUERY.createFlightsTable());
+        db.execSQL(QUERY.createReservationsTable());
     }
 
 
@@ -37,7 +39,9 @@ public class Database extends SQLiteOpenHelper {
      * name, version number and the upgraded version number
      *
      *  NOTE: Due to no upgrades will be made, method remains empty
-     * @param db
+     * @param db SQLiteDatabase object
+     * @param oldVersion integer old db version number
+     * @param newVersion integer new db version number
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
