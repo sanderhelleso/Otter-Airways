@@ -3,6 +3,8 @@ package flg.flightreservationsystem.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 public class Database extends SQLiteOpenHelper {
 
@@ -10,7 +12,7 @@ public class Database extends SQLiteOpenHelper {
     private SQLiteDatabase database;
 
     // instantiate new query
-    private final Query QUERY = new Query();
+    private final Statement STATEMENT = new Statement();
 
     // constructor to implement database
     public Database(Context context) {
@@ -23,14 +25,20 @@ public class Database extends SQLiteOpenHelper {
      * schema and it`s corresponding data for the tables
      * @param db SQLiteDatabase object
      */
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCreate(SQLiteDatabase db) {
 
         // create database tables
-        db.execSQL(QUERY.createLogsTable());
-        db.execSQL(QUERY.createCustomersTable());
-        db.execSQL(QUERY.createFlightsTable());
-        db.execSQL(QUERY.createReservationsTable());
+        db.execSQL(STATEMENT.createLogsTable());
+        db.execSQL(STATEMENT.createCustomersTable());
+        db.execSQL(STATEMENT.createFlightsTable());
+        db.execSQL(STATEMENT.createReservationsTable());
+
+        // insert default users
+        STATEMENT.insertDefaultCustomers().forEach((stmt) -> db.execSQL(stmt));
+
+        
     }
 
 
