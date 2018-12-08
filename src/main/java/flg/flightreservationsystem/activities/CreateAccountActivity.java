@@ -1,21 +1,28 @@
 package flg.flightreservationsystem.activities;
 
-import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import flg.flightreservationsystem.R;
+import flg.flightreservationsystem.database.Database;
+import flg.flightreservationsystem.database.Query;
 
 public class CreateAccountActivity extends AppCompatActivity {
+
+    // instantiate database object
+    Database db = new Database(this);
+
+    // instantiate query object
+    Query query = new Query();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,22 +43,35 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         // add event to confirm account
         final Button CONFIRM = findViewById(R.id.confirmCreateAccount);
-        CONFIRM.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        CONFIRM.setOnClickListener(v -> {
 
-                // validate new account properties
-                boolean valid = validate(USERNAME.getText().toString().trim()) && validate(PASSWORD.getText().toString().trim());
+            String username = USERNAME.getText().toString().trim();
+            String password = PASSWORD.getText().toString().trim();
 
-                // if properties are valid, create account
-                if (valid) {
-                    createAccount();
-                }
+            if (username.length() > 20) {
+                displayError(1);
+                return;
+            }
 
-                // if something is wrong with the properties, display error message
-                else {
-                    displayError(0);
-                }
+            // validate new account properties
+            boolean valid = validate(username) && validate(password);
+
+            // if properties are valid, attempt to create account
+            if (valid) {
+
+                // get hashmap and response (success / error, message)
+                HashMap<Boolean, String> resultMap = db.insert(query.createNewCustomer(username, password, false));
+                Map.Entry<Boolean, String> entry = resultMap.entrySet().iterator().next();
+                Boolean success = entry.getKey();
+                String message = entry.getValue();
+
+                Log.i("ERROR", "STATUS: " + success + " - MESSAGE: " + message);
+                message(message, success);
+            }
+
+            // if something is wrong with the properties, display error message
+            else {
+                displayError(0);
             }
         });
     }
@@ -84,10 +104,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         return matcher.matches();
     }
 
-    private void createAccount() {
-        Log.i("account", "ACCOUNT CREATION SUCCESSFULL");
-    }
-
     /*
         ------- DISPLAY ERROR MESSAGE DEPENDING ON EVENT -------
                      0 = invalid credential format
@@ -107,7 +123,8 @@ public class CreateAccountActivity extends AppCompatActivity {
                 message.append("- One special symbol\n");
                 message.append("- One number\n");
                 message.append("- One uppercase alphabet\n");
-                message.append("- One lowercase alphabet");
+                message.append("- One lowercase alphabet\n");
+                message.append("- Between 4 - 20 characters");
                 break;
 
             case 1:
@@ -115,25 +132,31 @@ public class CreateAccountActivity extends AppCompatActivity {
         }
 
         // display sat message
-        errorMessage(message);
+        message(message.toString(), false);
     }
 
-    private void errorMessage(final StringBuilder message) {
+    private void message(final String message, final Boolean success) {
 
         // create a new alert dialog
         new AlertDialog.Builder(this)
 
                 //set icon
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setIcon(success ? android.R.drawable.ic_dialog_info : android.R.drawable.ic_dialog_alert)
 
                 //set title
-                .setTitle("Error")
+                .setTitle(success ? "Success" : "Error")
 
                 //set message
                 .setMessage(message)
 
-                // create "confirm" button
-                .setPositiveButton("Confirm", null)
+                // create "confirm" button and event
+                .setPositiveButton("Confirm", (di, id) -> {
+
+                    // if success, finish and return to main menu
+                    if (success) {
+                        finish();
+                    }
+                })
 
                 // display alert
                 .show();
