@@ -153,9 +153,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                 .setPositiveButton("Confirm", (di, id) -> {
 
                     // if success, finish and return to main menu
-                    if (success) {
-                        finish();
-                    }
+                    if (success) { finish(); }
                 })
 
                 // display alert

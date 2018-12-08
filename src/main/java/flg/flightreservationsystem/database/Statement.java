@@ -33,7 +33,7 @@ public class Statement {
 
         // table columns
         final String ID =           "customer_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ";
-        final String USER_NAME =    "username VARCHAR(20) NOT NULL, ";
+        final String USER_NAME =    "username VARCHAR(20) NOT NULL UNIQUE, ";
         final String PASSWORD =     "password VARCHAR(255) NOT NULL, ";
         final String ADMIN =        "admin BOOLEAN NOT NULL";
 

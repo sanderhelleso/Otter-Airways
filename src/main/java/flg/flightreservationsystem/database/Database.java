@@ -12,11 +12,6 @@ import java.util.HashMap;
 
 public class Database extends SQLiteOpenHelper {
 
-    // default error messages
-    final String SQL_ERROR =               "Custom SQL detected. Abort query";
-    final String DEFAULT_ERROR =           "Hmm..Something went wrong. The following error occured: \n";
-    final String ACCOUNT_SUCCESS_CREATED = "Account Successfuly Created";
-
     // instantiate new database
     private SQLiteDatabase db;
 
@@ -57,7 +52,7 @@ public class Database extends SQLiteOpenHelper {
 
         // validate insert statement
         if (checkInjection(query)) {
-            MAP.put(false, SQL_ERROR);
+            MAP.put(false, Actions.SQL_ERROR);
             return MAP;
         }
 
@@ -68,15 +63,15 @@ public class Database extends SQLiteOpenHelper {
 
             // run query
             db.execSQL(query);
-            MAP.put(true, ACCOUNT_SUCCESS_CREATED);
+            MAP.put(true, Actions.ACCOUNT_CREATED);
             return MAP;
 
         }
 
         catch (SQLiteException e) {
 
-            Log.d("DB ERROR", e.getMessage());
-            MAP.put(false, DEFAULT_ERROR + e.getMessage());
+            // catch and display potensial errors
+            MAP.put(false, Actions.DEFAULT_ERROR + e.getMessage() + Actions.CONTACT_ADMIN);
             return MAP;
         }
 
@@ -111,18 +106,6 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public SQLiteDatabase getReadableDatabase() {
         return super.getReadableDatabase();
-    }
-
-    /**
-     * getter for read and write database
-     */
-
-    public SQLiteDatabase getReadDatabase() {
-        return getReadableDatabase();
-    }
-
-    public SQLiteDatabase getWriteDatabase() {
-        return getReadableDatabase();
     }
 
 }
