@@ -74,8 +74,9 @@ public class Query {
         // attempt to perform query
         try {
 
-            // put result in map, depending on result count message will be success or failure
-            MAP.put(true, cursor.getCount() > 0 ? Actions.LOGIN_SUCCESS : Actions.LOGIN_FAILED);
+            // put result in map, depending on result message will be results ID or failure message
+            final String customerID = cursor.getString(cursor.getColumnIndex("customer_id"));
+            MAP.put(true, cursor.getCount() > 0 ? customerID : Actions.LOGIN_FAILED);
             return MAP;
         }
 

@@ -1,5 +1,6 @@
 package flg.flightreservationsystem.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 import flg.flightreservationsystem.MainActivity;
 import flg.flightreservationsystem.R;
+import flg.flightreservationsystem.database.Actions;
 import flg.flightreservationsystem.database.Database;
 import flg.flightreservationsystem.database.Query;
 
@@ -23,6 +25,9 @@ public class LoginActivity extends AppCompatActivity {
 
     // instantiate query object
     Query query = new Query();
+
+    // customer ID
+    private String customerID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +62,13 @@ public class LoginActivity extends AppCompatActivity {
     private void login(final String username, final String password) {
 
         // get hashmap and response (success / error, message)
-        HashMap<Boolean, String> resultMap = query.select(query.loginCustomer(username, password), db);
-        Map.Entry<Boolean, String> entry = resultMap.entrySet().iterator().next();
-        Boolean success = entry.getKey();
-        String message = entry.getValue();
+        final HashMap<Boolean, String> resultMap = query.select(query.loginCustomer(username, password), db);
+        final Map.Entry<Boolean, String> entry = resultMap.entrySet().iterator().next();
+        final Boolean success = entry.getKey();
+        customerID = entry.getValue();
 
-        Log.i("ERROR", "STATUS: " + success + " - MESSAGE: " + message);
-        message(message, success);
+        // display message
+        message(success ? Actions.LOGIN_SUCCESS : Actions.LOGIN_FAILED, success);
     }
 
    private void message(final String message, final Boolean success) {
@@ -88,25 +93,27 @@ public class LoginActivity extends AppCompatActivity {
 
                     // if success, procced to next acitvity
                     if (success) {
-
                         // start next activity
                         switch (getIntent().getStringExtra("redirect_to")) {
-
                             case "reserve":
                                 // start "reserve" activity
-                                this.startActivity(new Intent(this, ReserveSeatActivity.class));
+                                startActivity(new Intent(
+                                        this, ReserveSeatActivity.class).putExtra("customerID", customerID));
                                 break;
 
                             case "cancel":
                                 // start "cancel seats" activity
-                                this.startActivity(new Intent(this, CancelReservationActivity.class));
+                                startActivity(new Intent(
+                                        this, CancelReservationActivity.class)
+                                        .putExtra("customerID", customerID));
                                 break;
 
                             case "manage":
                                 // start "manage system" activity
-                                this.startActivity(new Intent(this, CancelReservationActivity.class));
+                                startActivity(new Intent(
+                                        this, ManageSystemActivity.class)
+                                        .putExtra("customerID", customerID));
                                 break;
-
                         }
                     }
                 })

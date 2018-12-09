@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         CANCEL_RESERVATION.setOnClickListener(v -> {
 
             // open intent on button click
-            Intent intent = new Intent(this, CancelReservationActivity.class);
+            Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("redirect_to", "cancel");
             MainActivity.this.startActivity(intent);
         });
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         MANAGE_SYSTEM.setOnClickListener(v -> {
 
             // open intent on button click
-            Intent intent = new Intent(this, ManageSystemActivity.class);
+            Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("redirect_to", "manage");
             MainActivity.this.startActivity(intent);
         });
