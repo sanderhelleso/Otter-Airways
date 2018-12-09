@@ -25,7 +25,8 @@
         <activity android:name=".activities.CancelReservationActivity" />
         <activity android:name=".activities.CreateAccountActivity" />
         <activity android:name=".activities.ManageSystemActivity" />
-        <activity android:name=".activities.LoginActivity"></activity>
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.SelectFlightActivity"></activity>
     </application>
 
 </manifest>

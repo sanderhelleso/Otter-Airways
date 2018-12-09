@@ -1,21 +1,27 @@
 package flg.flightreservationsystem.activities;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.io.Serializable;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import flg.flightreservationsystem.R;
+import flg.flightreservationsystem.database.Actions;
 import flg.flightreservationsystem.database.Database;
 import flg.flightreservationsystem.database.Query;
 import flg.flightreservationsystem.src.Flight;
+import flg.flightreservationsystem.src.ReserveSeatSearch;
 
 public class ReserveSeatActivity extends AppCompatActivity {
 
@@ -47,12 +53,15 @@ public class ReserveSeatActivity extends AppCompatActivity {
 
         // add event to find available seats
         final Button confirm = findViewById(R.id.confirmFindSeats);
-        confirm.setOnClickListener(v -> {
+        confirm.setOnClickListener((View v) -> {
 
             // retrieve reserve seats data
             final String seatsFrom = departure.getText().toString().trim();
             final String seatsTo = destination.getText().toString().trim();
             final String ticketAmount = amount.getText().toString().trim();
+
+            // retrieve logged in customers ID
+            final String customerID = getIntent().getStringExtra("customerID");
 
             // attempt to find available seats
             final HashMap<Boolean, Map.Entry<String, ArrayList<Flight>>> RESULT = query.find(
@@ -66,8 +75,21 @@ public class ReserveSeatActivity extends AppCompatActivity {
 
             if (success) {
 
-                // display data
-                data.getValue().forEach(flight -> Log.i("flight: ", flight.toString()));
+                // create a new search object containing logged in users ID, amount of tickets and list of found flights
+                final ReserveSeatSearch RESERVE_SEAT_SEARCH = new ReserveSeatSearch(
+                        Integer.parseInt(customerID),
+                        Integer.parseInt(ticketAmount)
+                );
+
+                // finish current activity
+                finish();
+
+                // continue to select flight seats activity and pass along map with search data
+                startActivity(new Intent(
+                        this, SelectFlightActivity.class)
+                        .putExtra("reserveSearch", RESERVE_SEAT_SEARCH)
+                        .putExtra("availableFlights", data.getValue())
+                );
             }
 
             else {

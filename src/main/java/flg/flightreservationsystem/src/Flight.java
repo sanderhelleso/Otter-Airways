@@ -1,6 +1,8 @@
 package flg.flightreservationsystem.src;
 
-public class Flight {
+import java.io.Serializable;
+
+public class Flight implements Serializable {
 
     private String name;
     private String departure;

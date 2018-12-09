@@ -97,21 +97,24 @@ public class LoginActivity extends AppCompatActivity {
                                 // start "reserve" activity
                                 startActivity(new Intent(
                                         this, ReserveSeatActivity.class)
-                                        .putExtra("customerID", customerID));
+                                        .putExtra("customerID", customerID)
+                                );
                                 break;
 
                             case "cancel":
                                 // start "cancel seats" activity
                                 startActivity(new Intent(
                                         this, CancelReservationActivity.class)
-                                        .putExtra("customerID", customerID));
+                                        .putExtra("customerID", customerID)
+                                );
                                 break;
 
                             case "manage":
                                 // start "manage system" activity
                                 startActivity(new Intent(
                                         this, ManageSystemActivity.class)
-                                        .putExtra("customerID", customerID));
+                                        .putExtra("customerID", customerID)
+                                );
                                 break;
                         }
                     }
