@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         // fetch element by id
         final Button CREATE_ACCOUNT = findViewById(R.id.create_account);
         CREATE_ACCOUNT.setOnClickListener(v -> {
-            
+
             // open intent on button click
             Intent intent = new Intent(MainActivity.this, CreateAccountActivity.class);
             MainActivity.this.startActivity(intent);
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         RESERVE_SEAT.setOnClickListener(v -> {
 
             // open intent on button click
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("redirect_to", "reserve");
             MainActivity.this.startActivity(intent);
         });
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         CANCEL_RESERVATION.setOnClickListener(v -> {
 
             // open intent on button click
-            Intent intent = new Intent(MainActivity.this, CancelReservationActivity.class);
+            Intent intent = new Intent(this, CancelReservationActivity.class);
             intent.putExtra("redirect_to", "cancel");
             MainActivity.this.startActivity(intent);
         });
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         MANAGE_SYSTEM.setOnClickListener(v -> {
 
             // open intent on button click
-            Intent intent = new Intent(MainActivity.this, ManageSystemActivity.class);
+            Intent intent = new Intent(this, ManageSystemActivity.class);
             intent.putExtra("redirect_to", "manage");
             MainActivity.this.startActivity(intent);
         });

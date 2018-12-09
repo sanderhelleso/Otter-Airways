@@ -1,5 +1,6 @@
 package flg.flightreservationsystem.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import java.util.HashMap;
 import java.util.Map;
 
+import flg.flightreservationsystem.MainActivity;
 import flg.flightreservationsystem.R;
 import flg.flightreservationsystem.database.Database;
 import flg.flightreservationsystem.database.Query;
@@ -81,13 +83,31 @@ public class LoginActivity extends AppCompatActivity {
                 // create "confirm" button and event
                 .setPositiveButton("Confirm", (di, id) -> {
 
-                    // if success, procced to next intent
-                    if (success) {
-                        finish();
-                    }
+                    // finish login activity
+                    finish();
 
-                    else {
-                        finish();
+                    // if success, procced to next acitvity
+                    if (success) {
+
+                        // start next activity
+                        switch (getIntent().getStringExtra("redirect_to")) {
+
+                            case "reserve":
+                                // start "reserve" activity
+                                this.startActivity(new Intent(this, ReserveSeatActivity.class));
+                                break;
+
+                            case "cancel":
+                                // start "cancel seats" activity
+                                this.startActivity(new Intent(this, CancelReservationActivity.class));
+                                break;
+
+                            case "manage":
+                                // start "manage system" activity
+                                this.startActivity(new Intent(this, CancelReservationActivity.class));
+                                break;
+
+                        }
                     }
                 })
 
