@@ -2,13 +2,8 @@ package flg.flightreservationsystem.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
-
-import java.util.HashMap;
 
 public class Database extends SQLiteOpenHelper {
 
@@ -28,7 +23,6 @@ public class Database extends SQLiteOpenHelper {
      * and insert it`s corresponding defaulr data for the tables
      * @param db SQLiteDatabase object
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCreate(SQLiteDatabase db) {
 

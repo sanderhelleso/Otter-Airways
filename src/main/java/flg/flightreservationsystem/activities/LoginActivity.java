@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
     private void login(final String username, final String password) {
 
         // get hashmap and response (success / error, message)
-        final HashMap<Boolean, String> resultMap = query.select(query.loginCustomer(username, password), db);
+        final HashMap<Boolean, String> resultMap = query.login(query.loginCustomer(username, password), db);
         final Map.Entry<Boolean, String> entry = resultMap.entrySet().iterator().next();
         final Boolean success = entry.getKey();
         customerID = entry.getValue();
@@ -85,9 +85,10 @@ public class LoginActivity extends AppCompatActivity {
                 // create "confirm" button and event
                 .setPositiveButton("Confirm", (di, id) -> {
 
+                    // finish login activity
                     finish();
 
-                    // if success, procced to next intent
+                    // if success, procced to next activity
                     if (success) {
 
                         // start next activity

@@ -59,8 +59,8 @@ public class Statement {
         final String DESTINATION =  "destination VARCHAR(255) NOT NULL, ";
         final String TIME =         "time INTEGER NULL, ";
         final String CAPACITY =     "capacity INTEGER NOT NULL, ";
-        final String RESERVED =     "reserved INTEGER NOT NULL, ";
-        final String PRICE =        "price DECIMAL NOT NULL";
+        final String PRICE =        "price DECIMAL NOT NULL, ";
+        final String RESERVED =     "reserved INTEGER NOT NULL";
 
         // create flights table and return statement
         return Actions.CREATE + Actions.FLIGHTS_TABLE +
@@ -70,8 +70,8 @@ public class Statement {
                     DESTINATION +
                     TIME +
                     CAPACITY +
-                    RESERVED +
                     PRICE +
+                    RESERVED +
                 ");";
     }
 

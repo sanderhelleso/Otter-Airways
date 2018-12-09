@@ -9,6 +9,8 @@ public class Actions {
     public static final String ACCOUNT_CREATED =    "Account Successfuly Created!\n\nYou can now log into your account to reserve and cancel seats for your next flights";
     public static final String LOGIN_SUCCESS =      "Successfully login!";
     public static final String LOGIN_FAILED =       "Invalid username or password.\n\nPlease try again";
+    public static final String FLIGHTS_AVAILABLE =  "Found available flights";
+    public static final String FLIGHTS_NOT_FOUND =  "Sorry\n\nNo available seats matching your criterias found";
 
     // base SQL actions
     public static final String CREATE =         "CREATE TABLE ";
@@ -24,7 +26,7 @@ public class Actions {
 
     // base database colums
     public static final String CUSTOMER_COLUMNS =   "(username, password, admin) ";
-    public static final String FLIGHTS_COLUMNS =    "(name, departure, destination, time, capacity, reserved, price) ";
+    public static final String FLIGHTS_COLUMNS =    "(name, departure, destination, time, capacity, price, reserved) ";
 
 
 }
