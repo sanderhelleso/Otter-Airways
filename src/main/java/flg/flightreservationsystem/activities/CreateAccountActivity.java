@@ -9,20 +9,22 @@ import android.widget.EditText;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import flg.flightreservationsystem.R;
 import flg.flightreservationsystem.database.Database;
 import flg.flightreservationsystem.database.Query;
+import flg.flightreservationsystem.helpers.Validate;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
-    // instantiate database object
+    // instantiate database
     Database db = new Database(this);
 
-    // instantiate query object
+    // instantiate query
     Query query = new Query();
+
+    // instantiane validator
+    Validate validate = new Validate();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +56,13 @@ public class CreateAccountActivity extends AppCompatActivity {
             }
 
             // validate new account properties
-            boolean valid = validate(username) && validate(password);
+            boolean valid = validate.createAccount(username) && validate.createAccount(password);
 
             // if properties are valid, attempt to create account
             if (valid) {
 
                 // get hashmap and response (success / error, message)
-                HashMap<Boolean, String> resultMap = db.insert(query.createNewCustomer(username, password, false));
+                HashMap<Boolean, String> resultMap = query.insert(query.createNewCustomer(username, password, false), db);
                 Map.Entry<Boolean, String> entry = resultMap.entrySet().iterator().next();
                 Boolean success = entry.getKey();
                 String message = entry.getValue();
@@ -74,34 +76,6 @@ public class CreateAccountActivity extends AppCompatActivity {
                 displayError(0);
             }
         });
-    }
-
-    /*
-     * In the project, the username and password should have at least one special symbol
-     * (!, @, #, or $), one number, one uppercase alphabet, and one lowercase alphabet.
-     */
-
-    private boolean validate(final String value) {
-
-        /*
-        ------- REGEX TO HANDLE VALIDATION -------
-               at least 4 total combinations
-               at least 1 numeric character
-               at least 1 lowercase letter
-               at least 1 uppercase letter
-               at least 1 special character
-        ------------------------------------------
-        */
-        final String REQUIRED_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$";
-
-        // compile regex pattern
-        Pattern pattern = Pattern.compile(REQUIRED_PATTERN);
-
-        // initialize matcher and compare value against pattern
-        Matcher matcher = pattern.matcher(value);
-
-        // return result of match
-        return matcher.matches();
     }
 
     /*
@@ -151,9 +125,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                 // create "confirm" button and event
                 .setPositiveButton("Confirm", (di, id) -> {
-
-                    // if success, finish and return to main menu
-                    if (success) { finish(); }
+                    finish();
                 })
 
                 // display alert

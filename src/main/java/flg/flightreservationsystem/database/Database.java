@@ -45,47 +45,6 @@ public class Database extends SQLiteOpenHelper {
         Log.i("DB_CREATED", "Database created...");
     }
 
-    public HashMap<Boolean, String> insert(String query) {
-
-        // create a new hashmap to put boolean value and message
-        final HashMap<Boolean, String> MAP = new HashMap<>();
-
-        // validate insert statement
-        if (checkInjection(query)) {
-            MAP.put(false, Actions.SQL_ERROR);
-            return MAP;
-        }
-
-        // get writable database
-        db = getWritableDatabase();
-
-        try {
-
-            // run query
-            db.execSQL(query);
-            MAP.put(true, Actions.ACCOUNT_CREATED);
-            return MAP;
-
-        }
-
-        catch (SQLiteException e) {
-
-            // catch and display potensial errors
-            MAP.put(false, Actions.DEFAULT_ERROR + e.getMessage() + Actions.CONTACT_ADMIN);
-            return MAP;
-        }
-
-        // close connection
-        finally {
-             db.close();
-        }
-    }
-
-    private boolean checkInjection(String query) {
-        return query.contains("\"; ");
-    }
-
-
     /**
      * The following method updates the given database using
      * name, version number and the upgraded version number
@@ -108,4 +67,7 @@ public class Database extends SQLiteOpenHelper {
         return super.getReadableDatabase();
     }
 
+    public SQLiteDatabase getDb() {
+        return db;
+    }
 }

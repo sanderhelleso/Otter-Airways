@@ -24,7 +24,8 @@
         <activity android:name=".activities.ReserveSeatActivity" />
         <activity android:name=".activities.CancelReservationActivity" />
         <activity android:name=".activities.CreateAccountActivity" />
-        <activity android:name=".activities.ManageSystemActivity"></activity>
+        <activity android:name=".activities.ManageSystemActivity" />
+        <activity android:name=".activities.LoginActivity"></activity>
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import flg.flightreservationsystem.activities.CancelReservationActivity;
 import flg.flightreservationsystem.activities.CreateAccountActivity;
+import flg.flightreservationsystem.activities.LoginActivity;
 import flg.flightreservationsystem.activities.ManageSystemActivity;
 import flg.flightreservationsystem.activities.ReserveSeatActivity;
 import flg.flightreservationsystem.database.Database;
@@ -18,9 +19,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // initialize database
-        final Database DB = new Database(this);
 
         // initialize main menu
         initializeMenu();
@@ -40,14 +38,11 @@ public class MainActivity extends AppCompatActivity {
 
         // fetch element by id
         final Button CREATE_ACCOUNT = findViewById(R.id.create_account);
-        CREATE_ACCOUNT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // open intent on button click
-                Intent intent = new Intent(MainActivity.this, CreateAccountActivity.class);
-                MainActivity.this.startActivity(intent);
-            }
+        CREATE_ACCOUNT.setOnClickListener(v -> {
+            
+            // open intent on button click
+            Intent intent = new Intent(MainActivity.this, CreateAccountActivity.class);
+            MainActivity.this.startActivity(intent);
         });
     }
 
@@ -56,14 +51,12 @@ public class MainActivity extends AppCompatActivity {
 
         // fetch element by id
         final Button RESERVE_SEAT = findViewById(R.id.reserve_seat);
-        RESERVE_SEAT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        RESERVE_SEAT.setOnClickListener(v -> {
 
-                // open intent on button click
-                Intent intent = new Intent(MainActivity.this, ReserveSeatActivity.class);
-                MainActivity.this.startActivity(intent);
-            }
+            // open intent on button click
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            intent.putExtra("redirect_to", "reserve");
+            MainActivity.this.startActivity(intent);
         });
     }
 
@@ -72,14 +65,12 @@ public class MainActivity extends AppCompatActivity {
 
         // fetch element by id
         final Button CANCEL_RESERVATION =  findViewById(R.id.cancel_reservation);
-        CANCEL_RESERVATION.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        CANCEL_RESERVATION.setOnClickListener(v -> {
 
-                // open intent on button click
-                Intent intent = new Intent(MainActivity.this, CancelReservationActivity.class);
-                MainActivity.this.startActivity(intent);
-            }
+            // open intent on button click
+            Intent intent = new Intent(MainActivity.this, CancelReservationActivity.class);
+            intent.putExtra("redirect_to", "cancel");
+            MainActivity.this.startActivity(intent);
         });
     }
 
@@ -88,14 +79,12 @@ public class MainActivity extends AppCompatActivity {
 
         // fetch element by id
         final Button MANAGE_SYSTEM = findViewById(R.id.manage_system);
-        MANAGE_SYSTEM.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        MANAGE_SYSTEM.setOnClickListener(v -> {
 
-                // open intent on button click
-                Intent intent = new Intent(MainActivity.this, ManageSystemActivity.class);
-                MainActivity.this.startActivity(intent);
-            }
+            // open intent on button click
+            Intent intent = new Intent(MainActivity.this, ManageSystemActivity.class);
+            intent.putExtra("redirect_to", "manage");
+            MainActivity.this.startActivity(intent);
         });
     }
 }
