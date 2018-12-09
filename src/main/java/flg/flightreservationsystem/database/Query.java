@@ -3,6 +3,7 @@ package flg.flightreservationsystem.database;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
 import java.util.HashMap;
 
@@ -75,8 +76,14 @@ public class Query {
         try {
 
             // put result in map, depending on result message will be results ID or failure message
-            final String customerID = cursor.getString(cursor.getColumnIndex("customer_id"));
-            MAP.put(true, cursor.getCount() > 0 ? customerID : Actions.LOGIN_FAILED);
+            String customerID = null;
+            boolean customerFound = false;
+            if (cursor.moveToFirst()) {
+                customerID = cursor.getString(cursor.getColumnIndex("customer_id"));
+                customerFound = true;
+            }
+
+            MAP.put(customerFound, customerID);
             return MAP;
         }
 

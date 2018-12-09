@@ -15,6 +15,8 @@ import flg.flightreservationsystem.database.Database;
 
 public class MainActivity extends AppCompatActivity {
 
+    // load database
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             
             // open intent on button click
             Intent intent = new Intent(MainActivity.this, CreateAccountActivity.class);
-            MainActivity.this.startActivity(intent);
+            this.startActivity(intent);
         });
     }
 
@@ -68,13 +70,10 @@ public class MainActivity extends AppCompatActivity {
         CANCEL_RESERVATION.setOnClickListener(v -> {
 
             // open intent on button click
-<<<<<<< HEAD
+
             Intent intent = new Intent(this, LoginActivity.class);
-=======
-            Intent intent = new Intent(MainActivity.this, CancelReservationActivity.class);
->>>>>>> parent of 322e01c... now redirects to different activities depending on params
             intent.putExtra("redirect_to", "cancel");
-            MainActivity.this.startActivity(intent);
+            this.startActivity(intent);
         });
     }
 
@@ -85,14 +84,10 @@ public class MainActivity extends AppCompatActivity {
         final Button MANAGE_SYSTEM = findViewById(R.id.manage_system);
         MANAGE_SYSTEM.setOnClickListener(v -> {
 
-            // open intent on button click
-<<<<<<< HEAD
+
             Intent intent = new Intent(this, LoginActivity.class);
-=======
-            Intent intent = new Intent(MainActivity.this, ManageSystemActivity.class);
->>>>>>> parent of 322e01c... now redirects to different activities depending on params
             intent.putExtra("redirect_to", "manage");
-            MainActivity.this.startActivity(intent);
+            this.startActivity(intent);
         });
     }
 }

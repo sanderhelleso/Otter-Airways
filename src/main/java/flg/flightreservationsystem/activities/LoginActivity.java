@@ -1,14 +1,9 @@
 package flg.flightreservationsystem.activities;
 
-<<<<<<< HEAD
-import android.app.Activity;
 import android.content.Intent;
-=======
->>>>>>> parent of 322e01c... now redirects to different activities depending on params
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -90,15 +85,18 @@ public class LoginActivity extends AppCompatActivity {
                 // create "confirm" button and event
                 .setPositiveButton("Confirm", (di, id) -> {
 
+                    finish();
+
                     // if success, procced to next intent
                     if (success) {
-<<<<<<< HEAD
+
                         // start next activity
                         switch (getIntent().getStringExtra("redirect_to")) {
                             case "reserve":
                                 // start "reserve" activity
                                 startActivity(new Intent(
-                                        this, ReserveSeatActivity.class).putExtra("customerID", customerID));
+                                        this, ReserveSeatActivity.class)
+                                        .putExtra("customerID", customerID));
                                 break;
 
                             case "cancel":
@@ -115,13 +113,6 @@ public class LoginActivity extends AppCompatActivity {
                                         .putExtra("customerID", customerID));
                                 break;
                         }
-=======
-                        finish();
-                    }
-
-                    else {
-                        finish();
->>>>>>> parent of 322e01c... now redirects to different activities depending on params
                     }
                 })
 
