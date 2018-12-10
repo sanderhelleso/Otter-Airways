@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         RESERVE_SEAT.setOnClickListener(v -> {
 
             // open intent on button click
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Intent intent = new Intent(MainActivity.this, ReserveSeatActivity.class);
             intent.putExtra("redirect_to", "reserve");
             MainActivity.this.startActivity(intent);
         });

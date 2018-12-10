@@ -6,16 +6,16 @@ public class Flight implements Serializable {
 
     private String name;
     private String departure;
-    private String arrival;
+    private String destination;
     private int time;
     private int capacity;
     private double price;
     private int reserved;
 
-    public Flight(String name, String departure, String arrival, int time, int capacity, double price, int reserved) {
+    public Flight(String name, String departure, String destination, int time, int capacity, double price, int reserved) {
         this.name = name;
         this.departure = departure;
-        this.arrival = arrival;
+        this.destination = destination;
         this.time = time;
         this.capacity = capacity;
         this.price = price;
@@ -30,9 +30,6 @@ public class Flight implements Serializable {
         return departure;
     }
 
-    public String getArrival() {
-        return arrival;
-    }
 
     public int getTime() {
         return time;
@@ -52,14 +49,9 @@ public class Flight implements Serializable {
 
     @Override
     public String toString() {
-        return "Flight{" +
-                "name='" + name + '\'' +
-                ", departure='" + departure + '\'' +
-                ", arrival='" + arrival + '\'' +
-                ", time='" + time + '\'' +
-                ", capacity='" + capacity + '\'' +
-                ", price='" + price + '\'' +
-                ", reserved='" + reserved + '\'' +
-                '}';
+        return  "\n\nFlight Name: " + name + "\n" +
+                "Departure: " + departure + "\n" +
+                "Destination: " + destination + "\n" +
+                "Departure Time: " + time + "\n";
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -18,10 +19,14 @@ import flg.flightreservationsystem.database.Query;
 public class LoginActivity extends AppCompatActivity {
 
     // instantiate database object
-    Database db = new Database(this);
+    private Database db = new Database(this);
 
     // instantiate query object
-    Query query = new Query();
+    private Query query = new Query();
+
+    // confirm intent
+    private Intent data = new Intent();
+    private boolean confirm = false;
 
     // customer ID
     private String customerID;
@@ -31,11 +36,21 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // check for confirm
+        isConfirm();
+
         // initialize login form
         initializeForm();
     }
 
-    void initializeForm() {
+    private void isConfirm() {
+        // check if activity were opened due to confirmation purposes
+        if (getIntent().getBooleanExtra("confirm", true)) {
+            confirm = true;
+        }
+    }
+
+    private void initializeForm() {
 
         // username input
         final EditText USERNAME = findViewById(R.id.inputUsernameLogin);
@@ -85,39 +100,51 @@ public class LoginActivity extends AppCompatActivity {
                 // create "confirm" button and event
                 .setPositiveButton("Confirm", (di, id) -> {
 
-                    // finish login activity
-                    finish();
 
                     // if success, procced to next activity
                     if (success) {
 
-                        // start next activity
-                        switch (getIntent().getStringExtra("redirect_to")) {
-                            case "reserve":
-                                // start "reserve" activity
-                                startActivity(new Intent(
-                                        this, ReserveSeatActivity.class)
-                                        .putExtra("customerID", customerID)
-                                );
-                                break;
+                        if (confirm) {
+                            data.putExtra("customerID",customerID);
+                            setResult(1, data);
+                        }
 
-                            case "cancel":
-                                // start "cancel seats" activity
-                                startActivity(new Intent(
-                                        this, CancelReservationActivity.class)
-                                        .putExtra("customerID", customerID)
-                                );
-                                break;
+                        else {
+                            // start next activity
+                            switch (getIntent().getStringExtra("redirect_to")) {
+                                case "reserve":
+                                    // start "reserve" activity
+                                    startActivity(new Intent(
+                                            this, ReserveSeatActivity.class)
+                                            .putExtra("customerID", customerID)
+                                    );
+                                    break;
 
-                            case "manage":
-                                // start "manage system" activity
-                                startActivity(new Intent(
-                                        this, ManageSystemActivity.class)
-                                        .putExtra("customerID", customerID)
-                                );
-                                break;
+                                case "cancel":
+                                    // start "cancel seats" activity
+                                    startActivity(new Intent(
+                                            this, CancelReservationActivity.class)
+                                            .putExtra("customerID", customerID)
+                                    );
+                                    break;
+
+                                case "manage":
+                                    // start "manage system" activity
+                                    startActivity(new Intent(
+                                            this, ManageSystemActivity.class)
+                                            .putExtra("customerID", customerID)
+                                    );
+                                    break;
+                            }
                         }
                     }
+
+                    else {
+                        setResult(-1, data);
+                    }
+
+                    // finish current activity
+                    finish();
                 })
 
                 // display alert

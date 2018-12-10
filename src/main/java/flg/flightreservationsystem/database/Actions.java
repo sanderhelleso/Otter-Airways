@@ -6,9 +6,9 @@ public class Actions {
     public static final String SQL_ERROR =          "Custom SQL detected. Abort query";
     public static final String DEFAULT_ERROR =      "Hmm..Something went wrong.\nThe following error occured: \n\n";
     public static final String CONTACT_ADMIN =      "\n\nPlease contact the administrator";
-    public static final String ACCOUNT_CREATED =    "Account Successfuly Created!\n\nYou can now log into your account to reserve and cancel seats for your next flights";
+    public static final String ACCOUNT_CREATED =    "Successfully Created Account!\n\nYou can now log into your account to reserve and cancel seats for your next flights";
     public static final String LOGIN_SUCCESS =      "Successfully login!";
-    public static final String LOGIN_FAILED =       "Invalid username or password.\n\nPlease try again";
+    public static final String LOGIN_FAILED =       "Invalid username or password.\n";
     public static final String FLIGHTS_AVAILABLE =  "Found available flights";
     public static final String FLIGHTS_NOT_FOUND =  "Sorry\n\nNo available seats matching your criterias found";
 

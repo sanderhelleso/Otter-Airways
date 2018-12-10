@@ -1,8 +1,6 @@
 package flg.flightreservationsystem.activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,27 +8,41 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
-import java.io.Serializable;
-import java.util.AbstractMap;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import flg.flightreservationsystem.MainActivity;
 import flg.flightreservationsystem.R;
-import flg.flightreservationsystem.database.Actions;
 import flg.flightreservationsystem.database.Database;
 import flg.flightreservationsystem.database.Query;
 import flg.flightreservationsystem.src.Flight;
-import flg.flightreservationsystem.src.ReserveSeatSearch;
 
 public class ReserveSeatActivity extends AppCompatActivity {
 
     // instantiate database object
-    Database db = new Database(this);
+    private Database db = new Database(this);
 
     // instantiate query object
-    Query query = new Query();
+    private Query query = new Query();
+
+    // store ticket amount
+    private int ticketAmount = 0;
+
+    // selected flight index
+    private int selectedFlightIndex = 0;
+
+    // list to store flights
+    private ArrayList<Flight> flights;
+
+    // selected flight
+    private Flight flight;
+
+    // logged in customers ID
+    private String customerID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +51,22 @@ public class ReserveSeatActivity extends AppCompatActivity {
 
         // initialize reserve seats form
         initializeForm();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1337) {
+
+            Log.i("resultcode", String.valueOf(resultCode));
+            if (resultCode == 1) {
+                customerID = data.getStringExtra("customerID");
+                confirmSelectedFlight();
+            }
+
+            else if (resultCode == -1) {
+                finish();
+            }
+        }
     }
 
     private void initializeForm() {
@@ -57,12 +85,9 @@ public class ReserveSeatActivity extends AppCompatActivity {
         confirm.setOnClickListener((View v) -> {
 
             // retrieve reserve seats data
-            final String seatsFrom = departure.getText().toString().trim();
-            final String seatsTo = destination.getText().toString().trim();
-            final String ticketAmount = amount.getText().toString().trim();
-
-            // retrieve logged in customers ID
-            final String customerID = getIntent().getStringExtra("customerID");
+            final String seatsFrom =    departure.getText().toString().trim();
+            final String seatsTo =      destination.getText().toString().trim();
+            ticketAmount =              Integer.parseInt(amount.getText().toString().trim());
 
             // attempt to find available seats
             final HashMap<Boolean, Map.Entry<String, ArrayList<Flight>>> RESULT = query.find(
@@ -76,14 +101,9 @@ public class ReserveSeatActivity extends AppCompatActivity {
 
             if (success) {
 
-                // create a new search object containing logged in users ID, amount of tickets and list of found flights
-                final ReserveSeatSearch RESERVE_SEAT_SEARCH = new ReserveSeatSearch(
-                        Integer.parseInt(customerID),
-                        Integer.parseInt(ticketAmount)
-                );
-
-                //data.getValue().forEach(flight -> Log.i("flight: ", flight.toString()));
-                displayAvailableFlights(data.getValue());
+                // assign flights and display available
+                flights = data.getValue();
+                displayAvailableFlights();
             }
 
             else {
@@ -92,15 +112,12 @@ public class ReserveSeatActivity extends AppCompatActivity {
         });
     }
 
-    private void displayAvailableFlights(ArrayList<Flight> flights) {
+    private void displayAvailableFlights() {
         // setup the alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         // set title
         builder.setTitle("Found " + flights.size() + " Available Flights\n");
-
-        // check first item
-        int checkedItem = 0;
 
         // create list of flights
         String[] availableFlights = new String[flights.size()];
@@ -108,14 +125,25 @@ public class ReserveSeatActivity extends AppCompatActivity {
             availableFlights[i] = flights.get(i).getName();
         }
 
-        builder.setSingleChoiceItems(availableFlights, checkedItem, (dialog, which) -> {
-            // user checked an item
+        // initial selected flight in case user dont manually select option
+        flight = flights.get(selectedFlightIndex);
+
+        // set list with available flight options
+        builder.setSingleChoiceItems(availableFlights, selectedFlightIndex, (dialog, which) -> {
+
+            // update checked item
+            ListView lv = ((AlertDialog) dialog).getListView();
+            lv.setTag(which);
+            selectedFlightIndex = (Integer)lv.getTag();
+            flight = flights.get(selectedFlightIndex);
         });
 
         // set "Select" button
         builder.setPositiveButton("Select", (dialog, which) -> {
-            // user clicked OK
-            confirmSelectedFlight(flights.get(checkedItem), flights);
+
+            // continue to confirm flight with selected flight object
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivityForResult(intent,1337);
         });
 
         // set "Cancel" button
@@ -126,7 +154,7 @@ public class ReserveSeatActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void confirmSelectedFlight(Flight flight, ArrayList<Flight> flights) {
+    private void confirmSelectedFlight() {
 
         // setup the alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -134,7 +162,23 @@ public class ReserveSeatActivity extends AppCompatActivity {
         // set title
         builder.setTitle("Confirm information for flight " + flight.getName());
 
-        builder.setMessage(flight.toString());
+        // intantate new decimal formater to ensure number contains two decimals
+        DecimalFormat df = new DecimalFormat("#.00");
+
+        // get total price
+        Double totalPrice = Double.parseDouble(String.valueOf(
+                flight.getPrice() * ticketAmount)
+        );
+
+        // build message with price per ticket and total price
+        StringBuilder message = new StringBuilder("Price: per ticket: $");
+        message.append(df.format(flight.getPrice()));
+        message.append("\nAmount of tickets: ");
+        message.append(ticketAmount);
+        message.append("\n\nTotal Price: $").append(df.format(totalPrice));
+
+        // set built message
+        builder.setMessage(flight.toString() + message.toString() + "\n");
 
         // set "Confirm" button
         builder.setPositiveButton("Confirm", (dialog, which) -> {
@@ -143,7 +187,7 @@ public class ReserveSeatActivity extends AppCompatActivity {
 
         // set "Cancel" button
         builder.setNegativeButton("Back", (dialog, which) -> {
-            displayAvailableFlights(flights);
+            displayAvailableFlights();
         });
 
         // create and show the dialog
