@@ -211,7 +211,7 @@ public class ReserveSeatActivity extends AppCompatActivity {
 
             // create new reservation
             query.write(query.createNewReservation(
-                    customerUN, customerID, flight), db
+                    customerID, ticketAmount, flight), db
             );
 
             // update reservation count for flight

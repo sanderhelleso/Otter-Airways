@@ -33,19 +33,16 @@ public class CancelReservationActivity extends AppCompatActivity {
         loadData();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1337) {
-            if (resultCode == 1) {
-                customerID = data.getStringExtra("customerID");
-            }
-        }
-    }
-
     private void loadData() {
 
-        HashMap<String, ArrayList<Reservation>> data = query.read(query.getCustomerReservation(customerID), db);
-        data.entrySet().iterator().next().getValue().forEach(reservation -> Log.i("reservation", reservation.toString()));
+        // retrieve customer id from login activity
+        customerID = getIntent().getStringExtra("customerID");
+
+        // validate id
+        if (customerID != null) {
+            final HashMap<String, ArrayList<Reservation>> data = query.read(query.getCustomerReservation(customerID), db);
+            data.entrySet().iterator().next().getValue().forEach(r -> Log.i("reservation: ", r.toString()));
+        }
     }
 
 

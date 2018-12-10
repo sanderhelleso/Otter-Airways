@@ -45,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void isConfirm() {
+
         // check if activity were opened due to confirmation purposes
         if (getIntent().getBooleanExtra("confirm", true)) {
             confirm = true;
@@ -125,22 +126,24 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                         // start next activity
-                        switch (getIntent().getStringExtra("redirect_to")) {
-                            case "cancel":
-                                // start "cancel seats" activity
-                                startActivity(new Intent(
-                                        this, CancelReservationActivity.class)
-                                        .putExtra("customerID", customerUN)
-                                );
-                                break;
+                        if (getIntent().getStringExtra("redirect_to") != null) {
+                            switch (getIntent().getStringExtra("redirect_to")) {
+                                case "cancel":
+                                    // start "cancel seats" activity
+                                    startActivity(new Intent(
+                                            this, CancelReservationActivity.class)
+                                            .putExtra("customerID", customerID)
+                                    );
+                                    break;
 
-                            case "manage":
-                                // start "manage system" activity
-                                startActivity(new Intent(
-                                        this, ManageSystemActivity.class)
-                                        .putExtra("customerID", customerUN)
-                                );
-                                break;
+                                case "manage":
+                                    // start "manage system" activity
+                                    startActivity(new Intent(
+                                            this, ManageSystemActivity.class)
+                                            .putExtra("customerID", customerID)
+                                    );
+                                    break;
+                            }
                         }
                     }
 

@@ -21,7 +21,7 @@ public class Query {
     }
 
     // find available seats query
-    public String createNewReservation(final String customerID, final String seats, final Flight flight) {
+    public String createNewReservation(final String customerID, final int seats, final Flight flight) {
         return Actions.INSERT_INTO + Actions.RESERVATIONS_TABLE + Actions.RESERVATIONS_COLUMNS +
                 "VALUES (\"" + seats + "\", \"" + flight.getName() + "\", \"" + customerID + "\");";
     }
@@ -51,7 +51,7 @@ public class Query {
     // get customers reservations query
     public String getCustomerReservation(final String customerID) {
         return Actions.SELECT_ALL + "FROM " + Actions.RESERVATIONS_TABLE +
-                "WHERE customer_id = \"" + Integer.parseInt(customerID) + "\";";
+                "WHERE customer_id = \"" + customerID + "\";";
     }
 
     private boolean checkInjection(String query) {
@@ -82,13 +82,14 @@ public class Query {
                 // itterate over result and create reservations
                 while (!cursor.isAfterLast()) {
 
-                    // retrieve flight values
+                    // retrieve reservation values
                     final int reservationID =   Integer.parseInt(cursor.getString(cursor.getColumnIndex("reservation_id")));
                     final int seats =           Integer.parseInt(cursor.getString(cursor.getColumnIndex("seats")));
-                    final String name =         cursor.getString(cursor.getColumnIndex("name"));
+                    final String name =         cursor.getString(cursor.getColumnIndex("flight_name"));
                     final int customerID =      Integer.parseInt(cursor.getString(cursor.getColumnIndex("customer_id")));
 
                     // add reservations  to list
+                    Log.i("NAME: ", name);
                     RESERVATIONS.add(new Reservation(reservationID, seats, name, customerID));
 
                     // move to reservation flight
@@ -112,6 +113,7 @@ public class Query {
         // close connection
         finally {
             db.close();
+            cursor.close();
         }
     }
 
