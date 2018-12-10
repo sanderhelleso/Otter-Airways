@@ -115,7 +115,6 @@ public class LoginActivity extends AppCompatActivity {
                 // create "confirm" button and event
                 .setPositiveButton("Confirm", (di, id) -> {
 
-
                     // if success, procced to next activity
                     if (success) {
 
@@ -125,25 +124,23 @@ public class LoginActivity extends AppCompatActivity {
                             setResult(1, data);
                         }
 
-                        else {
-                            // start next activity
-                            switch (getIntent().getStringExtra("redirect_to")) {
-                                case "cancel":
-                                    // start "cancel seats" activity
-                                    startActivity(new Intent(
-                                            this, CancelReservationActivity.class)
-                                            .putExtra("customerID", customerUN)
-                                    );
-                                    break;
+                        // start next activity
+                        switch (getIntent().getStringExtra("redirect_to")) {
+                            case "cancel":
+                                // start "cancel seats" activity
+                                startActivity(new Intent(
+                                        this, CancelReservationActivity.class)
+                                        .putExtra("customerID", customerUN)
+                                );
+                                break;
 
-                                case "manage":
-                                    // start "manage system" activity
-                                    startActivity(new Intent(
-                                            this, ManageSystemActivity.class)
-                                            .putExtra("customerID", customerUN)
-                                    );
-                                    break;
-                            }
+                            case "manage":
+                                // start "manage system" activity
+                                startActivity(new Intent(
+                                        this, ManageSystemActivity.class)
+                                        .putExtra("customerID", customerUN)
+                                );
+                                break;
                         }
                     }
 

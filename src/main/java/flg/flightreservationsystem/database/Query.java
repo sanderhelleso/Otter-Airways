@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import flg.flightreservationsystem.src.Flight;
+import flg.flightreservationsystem.src.Reservation;
 
 public class Query {
 
@@ -40,19 +41,105 @@ public class Query {
                 "AND flights.capacity - flights.reserved >= " + Integer.parseInt(ticketAmount) + ";";
     }
 
-    // find available seats query
+    // updated selected flights seat query
     public String updateFlightReserved(final String flightName, final int ticketAmount) {
         return Actions.UPDATE + Actions.FLIGHTS_TABLE +
                 "SET reserved = reserved + " + ticketAmount + " " +
                 "WHERE name = \"" + flightName + "\";";
     }
 
-    /*UPDATE table_name
-SET column1 = value1, column2 = value2, ...
-WHERE condition;*/
+    // get customers reservations query
+    public String getCustomerReservation(final String customerID) {
+        return Actions.SELECT_ALL + "FROM " + Actions.RESERVATIONS_TABLE +
+                "WHERE customer_id = \"" + Integer.parseInt(customerID) + "\";";
+    }
 
     private boolean checkInjection(String query) {
         return query.contains("\"; ");
+    }
+
+
+    public HashMap<String, ArrayList<Reservation>> read(String stmt, Database db) {
+
+        // instantiate new map to store data
+        final HashMap<String, ArrayList<Reservation>> MAP = new HashMap<>();
+
+        // instantiante new arraylist
+        final ArrayList<Reservation> RESERVATIONS = new ArrayList<>();
+
+        // validate query statement
+        if (checkInjection(stmt)) {
+            MAP.put(Actions.SQL_ERROR, RESERVATIONS);
+            return MAP;
+        }
+
+        // attempt to read statement
+        final Cursor cursor = db.getReadableDatabase().rawQuery(stmt, null);
+        try {
+
+            if (cursor.moveToFirst()) {
+
+                // itterate over result and create reservations
+                while (!cursor.isAfterLast()) {
+
+                    // retrieve flight values
+                    final int reservationID =   Integer.parseInt(cursor.getString(cursor.getColumnIndex("reservation_id")));
+                    final int seats =           Integer.parseInt(cursor.getString(cursor.getColumnIndex("seats")));
+                    final String name =         cursor.getString(cursor.getColumnIndex("name"));
+                    final int customerID =      Integer.parseInt(cursor.getString(cursor.getColumnIndex("customer_id")));
+
+                    // add reservations  to list
+                    RESERVATIONS.add(new Reservation(reservationID, seats, name, customerID));
+
+                    // move to reservation flight
+                    cursor.moveToNext();
+                }
+            }
+
+            // fill map and return
+            MAP.put(Actions.RESERVATIONS_FOUND, RESERVATIONS);
+            return MAP;
+        }
+
+        // if any error, throw and display
+        catch (SQLiteException e) {
+
+            // catch and display potensial errors
+            MAP.put(Actions.DEFAULT_ERROR + e.getMessage() + Actions.CONTACT_ADMIN, RESERVATIONS);
+            return MAP;
+        }
+
+        // close connection
+        finally {
+            db.close();
+        }
+    }
+
+
+    public boolean write(String stmt, Database db) {
+
+        // validate query statement
+        if (checkInjection(stmt)) {
+            return false;
+        }
+
+        // attempt to excecute statement
+        try {
+
+            db.getWritableDatabase().execSQL(stmt);
+            return true;
+        }
+
+        // if any error, throw and log
+        catch (SQLiteException e) {
+            Log.e("SQL_ERROR", e.getMessage());
+            throw (e);
+        }
+
+        // close connection
+        finally {
+            db.close();
+        }
     }
 
     public HashMap<Boolean, String> insert(String query, Database db) {
@@ -80,31 +167,6 @@ WHERE condition;*/
             // catch and display potensial errors
             MAP.put(false, Actions.DEFAULT_ERROR + e.getMessage() + Actions.CONTACT_ADMIN);
             return MAP;
-        }
-
-        // close connection
-        finally {
-            db.close();
-        }
-    }
-
-    public boolean write(String stmt, Database db) {
-
-        // validate query statement
-        if (checkInjection(stmt)) {
-            return false;
-        }
-
-        // attempt to excecute statement
-        try {
-            db.getWritableDatabase().execSQL(stmt);
-            return true;
-        }
-
-        // if any error, throw and log
-        catch (SQLiteException e) {
-            Log.e("SQL_ERROR", e.getMessage());
-            throw (e);
         }
 
         // close connection
