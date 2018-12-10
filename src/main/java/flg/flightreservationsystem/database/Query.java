@@ -27,10 +27,11 @@ public class Query {
     }
 
     // find available seats query
-    public String findAvailableSeats(final String departure, final String arrival) {
+    public String findAvailableSeats(final String departure, final String arrival, final String ticketAmount) {
         return Actions.SELECT_ALL + "FROM " + Actions.FLIGHTS_TABLE +
                 "WHERE departure = \"" + departure + "\" " +
-                "AND destination = \"" + arrival + "\";";
+                "AND destination = \"" + arrival + "\"" +
+                "AND flights.capacity - flights.reserved >= " + Integer.parseInt(ticketAmount) + ";";
     }
 
     private boolean checkInjection(String query) {
@@ -87,15 +88,15 @@ public class Query {
         // attempt to perform query
         try {
 
-            // put result in map, depending on result message will be results ID or failure message
-            String customerID = null;
+            // put result in map, depending on result message will be results UN or failure message
+            String customerUN = null;
             boolean customerFound = false;
             if (cursor.moveToFirst()) {
-                customerID = cursor.getString(cursor.getColumnIndex("customer_id"));
+                customerUN = cursor.getString(cursor.getColumnIndex("username"));
                 customerFound = true;
             }
 
-            MAP.put(customerFound, customerID);
+            MAP.put(customerFound, customerUN);
             return MAP;
         }
 

@@ -3,6 +3,7 @@ package flg.flightreservationsystem.activities;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,6 +50,17 @@ public class CreateAccountActivity extends AppCompatActivity {
 
             String username = USERNAME.getText().toString().trim();
             String password = PASSWORD.getText().toString().trim();
+
+            // check for empty values
+            if (TextUtils.isEmpty(username)) {
+                USERNAME.setError("Please enter a username");
+                return;
+            }
+
+            else if (TextUtils.isEmpty(password)) {
+                PASSWORD.setError("Please enter a password");
+                return;
+            }
 
             if (username.length() > 20) {
                 displayError(1);

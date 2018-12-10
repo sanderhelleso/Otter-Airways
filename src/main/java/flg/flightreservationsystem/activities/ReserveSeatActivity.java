@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import flg.flightreservationsystem.MainActivity;
 import flg.flightreservationsystem.R;
 import flg.flightreservationsystem.database.Database;
 import flg.flightreservationsystem.database.Query;
@@ -41,8 +41,8 @@ public class ReserveSeatActivity extends AppCompatActivity {
     // selected flight
     private Flight flight;
 
-    // logged in customers ID
-    private String customerID;
+    // logged in customers UN
+    private String customerUN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class ReserveSeatActivity extends AppCompatActivity {
 
             Log.i("resultcode", String.valueOf(resultCode));
             if (resultCode == 1) {
-                customerID = data.getStringExtra("customerID");
+                customerUN = data.getStringExtra("customerUN");
                 confirmSelectedFlight();
             }
 
@@ -72,33 +72,52 @@ public class ReserveSeatActivity extends AppCompatActivity {
     private void initializeForm() {
 
         // departure input
-        final EditText departure = findViewById(R.id.inputDeparture);
+        final EditText DEPARTURE = findViewById(R.id.inputDeparture);
 
         // arrival input
-        final EditText destination = findViewById(R.id.inputArrival);
+        final EditText DESTINATION = findViewById(R.id.inputArrival);
 
         // amount of tickets input
-        final EditText amount = findViewById(R.id.inputTickets);
+        final EditText TICKET_AMOUNT = findViewById(R.id.inputTickets);
 
         // add event to find available seats
         final Button confirm = findViewById(R.id.confirmFindSeats);
         confirm.setOnClickListener((View v) -> {
 
             // retrieve reserve seats data
-            final String seatsFrom =    departure.getText().toString().trim();
-            final String seatsTo =      destination.getText().toString().trim();
-            ticketAmount =              Integer.parseInt(amount.getText().toString().trim());
+            final String seatsFrom =    DEPARTURE.getText().toString().trim();
+            final String seatsTo =      DESTINATION.getText().toString().trim();
+            final String ticketAmount = TICKET_AMOUNT.getText().toString().trim();
+
+            // check for empty values
+            if (TextUtils.isEmpty(seatsFrom)) {
+                DEPARTURE.setError("Please enter your departure");
+                return;
+            }
+
+            else if (TextUtils.isEmpty(seatsTo)) {
+                DESTINATION.setError("Please enter you destination");
+                return;
+            }
+
+            else if (TextUtils.isEmpty(ticketAmount) || Integer.parseInt(ticketAmount) < 1) {
+                TICKET_AMOUNT.setError("Please enter your amount of seats");
+                return;
+            }
+
+            // set ticket amount
+            this.ticketAmount = Integer.parseInt(ticketAmount);
 
             // attempt to find available seats
             final HashMap<Boolean, Map.Entry<String, ArrayList<Flight>>> RESULT = query.find(
-                    query.findAvailableSeats(seatsFrom, seatsTo), db);
+                    query.findAvailableSeats(seatsFrom, seatsTo, ticketAmount), db);
 
             // validate result
             final Map.Entry<Boolean, Map.Entry<String, ArrayList<Flight>>> entry = RESULT.entrySet().iterator().next();
             final Map.Entry<String, ArrayList<Flight>> data = entry.getValue();
             final Boolean success = entry.getKey();
 
-
+            // display result
             if (success) {
 
                 // assign flights and display available
@@ -171,14 +190,17 @@ public class ReserveSeatActivity extends AppCompatActivity {
         );
 
         // build message with price per ticket and total price
-        StringBuilder message = new StringBuilder("Price: per ticket: $");
+
+        StringBuilder message = new StringBuilder(flight.toString());
+        message.append("\nUsername: ").append(customerUN);
+        message.append("\nPrice: per ticket: $");
         message.append(df.format(flight.getPrice()));
         message.append("\nAmount of tickets: ");
         message.append(ticketAmount);
-        message.append("\n\nTotal Price: $").append(df.format(totalPrice));
+        message.append("\n\n\nTotal Price: $").append(df.format(totalPrice)).append("\n");
 
         // set built message
-        builder.setMessage(flight.toString() + message.toString() + "\n");
+        builder.setMessage(message.toString());
 
         // set "Confirm" button
         builder.setPositiveButton("Confirm", (dialog, which) -> {

@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     private boolean confirm = false;
 
     // customer ID
-    private String customerID;
+    private String customerUN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +66,17 @@ public class LoginActivity extends AppCompatActivity {
             final String username = USERNAME.getText().toString().trim();
             final String password = PASSWORD.getText().toString().trim();
 
+            // check for empty values
+            if (TextUtils.isEmpty(username)) {
+                USERNAME.setError("Please enter your username");
+                return;
+            }
+
+            else if (TextUtils.isEmpty(password)) {
+                PASSWORD.setError("Please enter you password");
+                return;
+            }
+
             // attempt to login user with recieved data properties
             login(username, password);
         });
@@ -77,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
         final HashMap<Boolean, String> resultMap = query.login(query.loginCustomer(username, password), db);
         final Map.Entry<Boolean, String> entry = resultMap.entrySet().iterator().next();
         final Boolean success = entry.getKey();
-        customerID = entry.getValue();
+        customerUN = entry.getValue();
 
         // display message
         message(success ? Actions.LOGIN_SUCCESS : Actions.LOGIN_FAILED, success);
@@ -105,26 +116,18 @@ public class LoginActivity extends AppCompatActivity {
                     if (success) {
 
                         if (confirm) {
-                            data.putExtra("customerID",customerID);
+                            data.putExtra("customerUN", customerUN);
                             setResult(1, data);
                         }
 
                         else {
                             // start next activity
                             switch (getIntent().getStringExtra("redirect_to")) {
-                                case "reserve":
-                                    // start "reserve" activity
-                                    startActivity(new Intent(
-                                            this, ReserveSeatActivity.class)
-                                            .putExtra("customerID", customerID)
-                                    );
-                                    break;
-
                                 case "cancel":
                                     // start "cancel seats" activity
                                     startActivity(new Intent(
                                             this, CancelReservationActivity.class)
-                                            .putExtra("customerID", customerID)
+                                            .putExtra("customerID", customerUN)
                                     );
                                     break;
 
@@ -132,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                                     // start "manage system" activity
                                     startActivity(new Intent(
                                             this, ManageSystemActivity.class)
-                                            .putExtra("customerID", customerID)
+                                            .putExtra("customerID", customerUN)
                                     );
                                     break;
                             }
