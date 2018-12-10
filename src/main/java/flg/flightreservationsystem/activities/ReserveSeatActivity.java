@@ -97,7 +97,7 @@ public class ReserveSeatActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         // set title
-        builder.setTitle("Found " + flights.size() + " available flights\n");
+        builder.setTitle("Found " + flights.size() + " Available Flights\n");
 
         // check first item
         int checkedItem = 0;
@@ -112,13 +112,41 @@ public class ReserveSeatActivity extends AppCompatActivity {
             // user checked an item
         });
 
-        // add OK and Cancel buttons
-        builder.setPositiveButton("OK", (dialog, which) -> {
+        // set "Select" button
+        builder.setPositiveButton("Select", (dialog, which) -> {
             // user clicked OK
+            confirmSelectedFlight(flights.get(checkedItem), flights);
         });
+
+        // set "Cancel" button
         builder.setNegativeButton("Cancel", null);
 
-        // create and show the alert dialog
+        // create and show the dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void confirmSelectedFlight(Flight flight, ArrayList<Flight> flights) {
+
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // set title
+        builder.setTitle("Confirm information for flight " + flight.getName());
+
+        builder.setMessage(flight.toString());
+
+        // set "Confirm" button
+        builder.setPositiveButton("Confirm", (dialog, which) -> {
+            // user clicked OK
+        });
+
+        // set "Cancel" button
+        builder.setNegativeButton("Back", (dialog, which) -> {
+            displayAvailableFlights(flights);
+        });
+
+        // create and show the dialog
         AlertDialog dialog = builder.create();
         dialog.show();
     }
