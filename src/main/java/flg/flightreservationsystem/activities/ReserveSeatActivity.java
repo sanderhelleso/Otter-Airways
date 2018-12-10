@@ -210,8 +210,13 @@ public class ReserveSeatActivity extends AppCompatActivity {
         builder.setPositiveButton("Confirm", (dialog, which) -> {
 
             // create new reservation
-            query.createReservation(query.createNewReservation(
+            query.write(query.createNewReservation(
                     customerUN, customerID, flight), db
+            );
+
+            // update reservation count for flight
+            query.write(query.updateFlightReserved(
+                    flight.getName(), ticketAmount) ,db
             );
 
             // finish and return to main menu

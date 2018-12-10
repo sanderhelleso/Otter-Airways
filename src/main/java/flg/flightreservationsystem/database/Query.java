@@ -2,6 +2,7 @@ package flg.flightreservationsystem.database;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -38,6 +39,17 @@ public class Query {
                 "AND destination = \"" + arrival + "\"" +
                 "AND flights.capacity - flights.reserved >= " + Integer.parseInt(ticketAmount) + ";";
     }
+
+    // find available seats query
+    public String updateFlightReserved(final String flightName, final int ticketAmount) {
+        return Actions.UPDATE + Actions.FLIGHTS_TABLE +
+                "SET reserved = reserved + " + ticketAmount + " " +
+                "WHERE name = \"" + flightName + "\";";
+    }
+
+    /*UPDATE table_name
+SET column1 = value1, column2 = value2, ...
+WHERE condition;*/
 
     private boolean checkInjection(String query) {
         return query.contains("\"; ");
@@ -76,15 +88,29 @@ public class Query {
         }
     }
 
-    public void createReservation(String stmt, Database db) {
+    public boolean write(String stmt, Database db) {
 
         // validate query statement
         if (checkInjection(stmt)) {
-            return;
+            return false;
         }
 
-        // excecute statement
-        db.getWritableDatabase().execSQL(stmt);
+        // attempt to excecute statement
+        try {
+            db.getWritableDatabase().execSQL(stmt);
+            return true;
+        }
+
+        // if any error, throw and log
+        catch (SQLiteException e) {
+            Log.e("SQL_ERROR", e.getMessage());
+            throw (e);
+        }
+
+        // close connection
+        finally {
+            db.close();
+        }
     }
 
     public HashMap<Boolean, Map<String, String>> login(String stmt, Database db) {

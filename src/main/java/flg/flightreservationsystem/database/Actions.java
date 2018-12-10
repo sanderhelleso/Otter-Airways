@@ -21,6 +21,7 @@ public class Actions {
     public static final String DELETE_CASCADE = "ON DELETE CASCADE ";
     public static final String INSERT_INTO =    "INSERT INTO ";
     public static final String SELECT_ALL =     "SELECT * ";
+    public static final String UPDATE =         "UPDATE ";
 
     // base database table names
     public static final String LOGS_TABLE =           "logs ";
