@@ -10,8 +10,12 @@ public class Actions {
     public static final String LOGIN_SUCCESS =      "Successfully login!";
     public static final String LOGIN_FAILED =       "Invalid username or password.\n";
     public static final String FLIGHTS_AVAILABLE =  "Found available flights";
-    public static final String FLIGHTS_NOT_FOUND =  "Sorry\n\nNo available seats matching your criterias found";
-
+    public static final String FLIGHTS_NOT_FOUND =  "Sorry. No available seats matching your criterias were found.\n\n" +
+            "To solve this you can try  the following:\n" +
+            "\n-Different departure\n-Different destination" +
+            "\n-Change the amount of tickets" +
+            "\n\nIf none of the above works and you are sure flights should be available, " +
+            "please contact the administrator.";
     // base SQL actions
     public static final String CREATE =         "CREATE TABLE ";
     public static final String DELETE_CASCADE = "ON DELETE CASCADE ";
@@ -25,8 +29,9 @@ public class Actions {
     public static final String RESERVATIONS_TABLE =   "reservations ";
 
     // base database colums
-    public static final String CUSTOMER_COLUMNS =   "(username, password, admin) ";
-    public static final String FLIGHTS_COLUMNS =    "(name, departure, destination, time, capacity, price, reserved) ";
+    public static final String CUSTOMER_COLUMNS =       "(username, password, admin) ";
+    public static final String FLIGHTS_COLUMNS =        "(name, departure, destination, time, capacity, price, reserved) ";
+    public static final String RESERVATIONS_COLUMNS =   "(seats, flight_name, customer_id) ";
 
 
 }

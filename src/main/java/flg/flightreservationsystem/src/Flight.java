@@ -30,6 +30,9 @@ public class Flight implements Serializable {
         return departure;
     }
 
+    public String getDestination() {
+        return destination;
+    }
 
     public int getTime() {
         return time;

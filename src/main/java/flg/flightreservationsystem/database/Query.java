@@ -2,7 +2,6 @@ package flg.flightreservationsystem.database;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
-import android.util.Log;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -17,6 +16,12 @@ public class Query {
     public String createNewCustomer(final String username, final String password, final Boolean admin) {
         return Actions.INSERT_INTO + Actions.CUSTOMERS_TABLE + Actions.CUSTOMER_COLUMNS +
                 "VALUES (\"" + username + "\", \"" + password + "\", \"" + Boolean.toString(admin) + "\");";
+    }
+
+    // find available seats query
+    public String createNewReservation(final String customerID, final String seats, final Flight flight) {
+        return Actions.INSERT_INTO + Actions.RESERVATIONS_TABLE + Actions.RESERVATIONS_COLUMNS +
+                "VALUES (\"" + seats + "\", \"" + flight.getName() + "\", \"" + customerID + "\");";
     }
 
     // login customer query
@@ -71,14 +76,27 @@ public class Query {
         }
     }
 
-    public HashMap<Boolean, String> login(String stmt, Database db) {
-
-        // create a new hashmap to put boolean value and message
-        final HashMap<Boolean, String> MAP = new HashMap<>();
+    public void createReservation(String stmt, Database db) {
 
         // validate query statement
         if (checkInjection(stmt)) {
-            MAP.put(false, Actions.SQL_ERROR);
+            return;
+        }
+
+        // excecute statement
+        db.getWritableDatabase().execSQL(stmt);
+    }
+
+    public HashMap<Boolean, Map<String, String>> login(String stmt, Database db) {
+
+        // create a new hashmap to put boolean value and message
+        final HashMap<Boolean, Map<String, String>> MAP = new HashMap<>();
+        final HashMap<String, String> ENTRY = new HashMap<>();
+
+        // validate query statement
+        if (checkInjection(stmt)) {
+            ENTRY.put("ERROR", Actions.SQL_ERROR);
+            MAP.put(false, ENTRY);
             return MAP;
         }
 
@@ -90,20 +108,25 @@ public class Query {
 
             // put result in map, depending on result message will be results UN or failure message
             String customerUN = null;
+            String customerID = null;
             boolean customerFound = false;
             if (cursor.moveToFirst()) {
                 customerUN = cursor.getString(cursor.getColumnIndex("username"));
+                customerID = cursor.getString(cursor.getColumnIndex("customer_id"));
                 customerFound = true;
             }
 
-            MAP.put(customerFound, customerUN);
+            // fill map and return
+            ENTRY.put(customerID, customerUN);
+            MAP.put(customerFound, ENTRY);
             return MAP;
         }
 
         catch (SQLiteException e) {
 
             // catch and display potensial errors
-            MAP.put(false, Actions.DEFAULT_ERROR + e.getMessage() + Actions.CONTACT_ADMIN);
+            ENTRY.put("ERROR", Actions.DEFAULT_ERROR + e.getMessage() + Actions.CONTACT_ADMIN);
+            MAP.put(false, ENTRY);
             return MAP;
         }
 

@@ -28,7 +28,8 @@ public class LoginActivity extends AppCompatActivity {
     private Intent data = new Intent();
     private boolean confirm = false;
 
-    // customer ID
+    // customer ID & username
+    private String customerID;
     private String customerUN;
 
     @Override
@@ -85,10 +86,13 @@ public class LoginActivity extends AppCompatActivity {
     private void login(final String username, final String password) {
 
         // get hashmap and response (success / error, message)
-        final HashMap<Boolean, String> resultMap = query.login(query.loginCustomer(username, password), db);
-        final Map.Entry<Boolean, String> entry = resultMap.entrySet().iterator().next();
+        final HashMap<Boolean, Map<String, String>> resultMap = query.login(query.loginCustomer(username, password), db);
+        final Map.Entry<Boolean, Map<String, String>> entry = resultMap.entrySet().iterator().next();
         final Boolean success = entry.getKey();
-        customerUN = entry.getValue();
+
+        // retireve customers username and userID
+        customerID = entry.getValue().entrySet().iterator().next().getKey();
+        customerUN = entry.getValue().entrySet().iterator().next().getValue();
 
         // display message
         message(success ? Actions.LOGIN_SUCCESS : Actions.LOGIN_FAILED, success);
@@ -117,6 +121,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (confirm) {
                             data.putExtra("customerUN", customerUN);
+                            data.putExtra("customerID", customerID);
                             setResult(1, data);
                         }
 

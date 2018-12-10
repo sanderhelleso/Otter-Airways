@@ -44,6 +44,9 @@ public class ReserveSeatActivity extends AppCompatActivity {
     // logged in customers UN
     private String customerUN;
 
+    // logged in customers ID
+    private String customerID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +63,7 @@ public class ReserveSeatActivity extends AppCompatActivity {
             Log.i("resultcode", String.valueOf(resultCode));
             if (resultCode == 1) {
                 customerUN = data.getStringExtra("customerUN");
+                customerID = data.getStringExtra("customerID");
                 confirmSelectedFlight();
             }
 
@@ -204,7 +208,14 @@ public class ReserveSeatActivity extends AppCompatActivity {
 
         // set "Confirm" button
         builder.setPositiveButton("Confirm", (dialog, which) -> {
-            // user clicked OK
+
+            // create new reservation
+            query.createReservation(query.createNewReservation(
+                    customerUN, customerID, flight), db
+            );
+
+            // finish and return to main menu
+            finish();
         });
 
         // set "Cancel" button
