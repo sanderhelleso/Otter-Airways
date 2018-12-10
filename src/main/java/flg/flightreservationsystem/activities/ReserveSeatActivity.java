@@ -1,5 +1,6 @@
 package flg.flightreservationsystem.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
@@ -81,21 +82,45 @@ public class ReserveSeatActivity extends AppCompatActivity {
                         Integer.parseInt(ticketAmount)
                 );
 
-                // finish current activity
-                finish();
-
-                // continue to select flight seats activity and pass along map with search data
-                startActivity(new Intent(
-                        this, SelectFlightActivity.class)
-                        .putExtra("reserveSearch", RESERVE_SEAT_SEARCH)
-                        .putExtra("availableFlights", data.getValue())
-                );
+                //data.getValue().forEach(flight -> Log.i("flight: ", flight.toString()));
+                displayAvailableFlights(data.getValue());
             }
 
             else {
                 message(data.getKey(), success);
             }
         });
+    }
+
+    private void displayAvailableFlights(ArrayList<Flight> flights) {
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // set title
+        builder.setTitle("Found " + flights.size() + " available flights\n");
+
+        // check first item
+        int checkedItem = 0;
+
+        // create list of flights
+        String[] availableFlights = new String[flights.size()];
+        for (int i = 0; i < flights.size(); i++) {
+            availableFlights[i] = flights.get(i).getName();
+        }
+
+        builder.setSingleChoiceItems(availableFlights, checkedItem, (dialog, which) -> {
+            // user checked an item
+        });
+
+        // add OK and Cancel buttons
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            // user clicked OK
+        });
+        builder.setNegativeButton("Cancel", null);
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void message(final String message, final Boolean success) {
