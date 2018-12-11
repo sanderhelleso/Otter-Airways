@@ -2,12 +2,13 @@ package flg.flightreservationsystem.src;
 
 public class Reservation extends Flight {
 
-    private int id;
+    private int reservationID;
     private int seats;
     private int customerID;
+    private String username;
 
     public Reservation(
-            String name,
+            String flightName,
             String departure,
             String destination,
             int time,
@@ -16,16 +17,18 @@ public class Reservation extends Flight {
             int reserved,
             int id,
             int seats,
-            int customerID
+            int customerID,
+            String username
     ) {
-        super(name, departure, destination, time, capacity, price, reserved);
-        this.id = id;
+        super(flightName, departure, destination, time, capacity, price, reserved);
+        this.reservationID = id;
         this.seats = seats;
         this.customerID = customerID;
+        this.username = username;
     }
 
-    public int getId() {
-        return id;
+    public int getReservationID() {
+        return reservationID;
     }
 
     public int getSeats() {
@@ -36,10 +39,14 @@ public class Reservation extends Flight {
         return customerID;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     @Override
     public String toString() {
         return "Reservation{" +
-                "id=" + id +
+                "id=" + reservationID +
                 ", seats=" + seats +
                 ", customerID=" + customerID +
                 '}';

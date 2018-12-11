@@ -145,7 +145,7 @@ public class ReserveSeatActivity extends AppCompatActivity {
         // create list of flights
         String[] availableFlights = new String[flights.size()];
         for (int i = 0; i < flights.size(); i++) {
-            availableFlights[i] = flights.get(i).getName();
+            availableFlights[i] = flights.get(i).getFlightName();
         }
 
         // initial selected flight in case user dont manually select option
@@ -183,7 +183,7 @@ public class ReserveSeatActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         // set title
-        builder.setTitle("Confirm information for flight " + flight.getName());
+        builder.setTitle("Confirm information for flight " + flight.getFlightName());
 
         // intantate new decimal formater to ensure number contains two decimals
         DecimalFormat df = new DecimalFormat("#.00");
@@ -216,7 +216,7 @@ public class ReserveSeatActivity extends AppCompatActivity {
 
             // update reservation count for flight
             query.write(query.updateFlightReserved(
-                    flight.getName(), ticketAmount) ,db
+                    flight.getFlightName(), ticketAmount) ,db
             );
 
             // finish and return to main menu

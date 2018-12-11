@@ -23,7 +23,7 @@ public class Query {
     // find available seats query
     public String createNewReservation(final String customerID, final int seats, final Flight flight) {
         return Actions.INSERT_INTO + Actions.RESERVATIONS_TABLE + " " + Actions.RESERVATIONS_COLUMNS +
-                "VALUES (\"" + seats + "\", \"" + flight.getName() + "\", \"" + customerID + "\");";
+                "VALUES (\"" + seats + "\", \"" + flight.getFlightName() + "\", \"" + customerID + "\");";
     }
 
     // login customer query
@@ -90,7 +90,7 @@ public class Query {
                 while (!cursor.isAfterLast()) {
 
                     // retrieve reservation values
-                    final String name =         cursor.getString(cursor.getColumnIndex("name"));
+                    final String flightName =   cursor.getString(cursor.getColumnIndex("name"));
                     final String departure =    cursor.getString(cursor.getColumnIndex("departure"));
                     final String destination =  cursor.getString(cursor.getColumnIndex("destination"));
                     final int time =            Integer.parseInt(cursor.getString(cursor.getColumnIndex("time")));
@@ -100,10 +100,11 @@ public class Query {
                     final int reservationID =   Integer.parseInt(cursor.getString(cursor.getColumnIndex("reservation_id")));
                     final int seats =           Integer.parseInt(cursor.getString(cursor.getColumnIndex("seats")));
                     final int customerID =      Integer.parseInt(cursor.getString(cursor.getColumnIndex("customer_id")));
+                    final String username =     cursor.getString(cursor.getColumnIndex("username"));
 
                     // add reservations  to list
                     RESERVATIONS.add(new Reservation(
-                            name,
+                            flightName,
                             departure,
                             destination,
                             time,
@@ -112,7 +113,9 @@ public class Query {
                             reserved,
                             customerID,
                             seats,
-                            reservationID)
+                            reservationID,
+                            username
+                            )
                     );
 
                     // move to reservation flight

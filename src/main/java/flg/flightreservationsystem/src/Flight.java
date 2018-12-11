@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Flight implements Serializable {
 
-    private String name;
+    private String flightName;
     private String departure;
     private String destination;
     private int time;
@@ -12,8 +12,8 @@ public class Flight implements Serializable {
     private double price;
     private int reserved;
 
-    public Flight(String name, String departure, String destination, int time, int capacity, double price, int reserved) {
-        this.name = name;
+    public Flight(String flightName, String departure, String destination, int time, int capacity, double price, int reserved) {
+        this.flightName = flightName;
         this.departure = departure;
         this.destination = destination;
         this.time = time;
@@ -22,8 +22,8 @@ public class Flight implements Serializable {
         this.reserved = reserved;
     }
 
-    public String getName() {
-        return name;
+    public String getFlightName() {
+        return flightName;
     }
 
     public String getDeparture() {
@@ -52,7 +52,7 @@ public class Flight implements Serializable {
 
     @Override
     public String toString() {
-        return  "\n\nFlight Name: " + name + "\n" +
+        return  "\n\nFlight Name: " + flightName + "\n" +
                 "Departure: " + departure + "\n" +
                 "Destination: " + destination + "\n" +
                 "Departure Time: " + time + "\n";
