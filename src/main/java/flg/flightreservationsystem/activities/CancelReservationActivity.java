@@ -82,7 +82,7 @@ public class CancelReservationActivity extends AppCompatActivity {
         // create list of reservations
         String[] userReservations = new String[reservations.size()];
         for (int i = 0; i < reservations.size(); i++) {
-            userReservations[i] = reservations.get(i).getFlightName();
+            userReservations[i] = reservations.get(i).getName();
         }
 
         // initial selected reservation in case user dont manually select option

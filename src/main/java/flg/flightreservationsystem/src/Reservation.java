@@ -1,16 +1,26 @@
 package flg.flightreservationsystem.src;
 
-public class Reservation {
+public class Reservation extends Flight {
 
     private int id;
     private int seats;
-    private String flightName;
     private int customerID;
 
-    public Reservation(int id, int seats, String flightName, int customerID) {
+    public Reservation(
+            String name,
+            String departure,
+            String destination,
+            int time,
+            int capacity,
+            double price,
+            int reserved,
+            int id,
+            int seats,
+            int customerID
+    ) {
+        super(name, departure, destination, time, capacity, price, reserved);
         this.id = id;
         this.seats = seats;
-        this.flightName = flightName;
         this.customerID = customerID;
     }
 
@@ -22,10 +32,6 @@ public class Reservation {
         return seats;
     }
 
-    public String getFlightName() {
-        return flightName;
-    }
-
     public int getCustomerID() {
         return customerID;
     }
@@ -35,7 +41,6 @@ public class Reservation {
         return "Reservation{" +
                 "id=" + id +
                 ", seats=" + seats +
-                ", flightName='" + flightName + '\'' +
                 ", customerID=" + customerID +
                 '}';
     }

@@ -90,14 +90,30 @@ public class Query {
                 while (!cursor.isAfterLast()) {
 
                     // retrieve reservation values
+                    final String name =         cursor.getString(cursor.getColumnIndex("name"));
+                    final String departure =    cursor.getString(cursor.getColumnIndex("departure"));
+                    final String destination =  cursor.getString(cursor.getColumnIndex("destination"));
+                    final int time =            Integer.parseInt(cursor.getString(cursor.getColumnIndex("time")));
+                    final int capacity =        Integer.parseInt(cursor.getString(cursor.getColumnIndex("capacity")));
+                    final double price =        Double.parseDouble(cursor.getString(cursor.getColumnIndex("price")));
+                    final int reserved =        Integer.parseInt(cursor.getString(cursor.getColumnIndex("reserved")));
                     final int reservationID =   Integer.parseInt(cursor.getString(cursor.getColumnIndex("reservation_id")));
                     final int seats =           Integer.parseInt(cursor.getString(cursor.getColumnIndex("seats")));
-                    final String name =         cursor.getString(cursor.getColumnIndex("flight_name"));
                     final int customerID =      Integer.parseInt(cursor.getString(cursor.getColumnIndex("customer_id")));
 
                     // add reservations  to list
-                    Log.i("NAME: ", name);
-                    RESERVATIONS.add(new Reservation(reservationID, seats, name, customerID));
+                    RESERVATIONS.add(new Reservation(
+                            name,
+                            departure,
+                            destination,
+                            time,
+                            capacity,
+                            price,
+                            reserved,
+                            customerID,
+                            seats,
+                            reservationID)
+                    );
 
                     // move to reservation flight
                     cursor.moveToNext();
