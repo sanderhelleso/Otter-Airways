@@ -23,6 +23,7 @@ public class Actions {
 
     // base SQL actions
     public static final String CREATE =         "CREATE TABLE ";
+    public static final String DELETE =         "DELETE ";
     public static final String DELETE_CASCADE = "ON DELETE CASCADE ";
     public static final String INSERT_INTO =    "INSERT INTO ";
     public static final String SELECT_ALL =     "SELECT * ";

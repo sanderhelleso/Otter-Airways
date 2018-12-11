@@ -16,7 +16,7 @@ public class Query {
 
     // create new customer query
     public String createNewCustomer(final String username, final String password, final Boolean admin) {
-        return Actions.INSERT_INTO + Actions.CUSTOMERS_TABLE + " " + Actions.CUSTOMER_COLUMNS +
+        return  Actions.INSERT_INTO + Actions.CUSTOMERS_TABLE + " " + Actions.CUSTOMER_COLUMNS +
                 "VALUES (\"" + username + "\", \"" + password + "\", \"" + Boolean.toString(admin) + "\");";
     }
 
@@ -28,14 +28,14 @@ public class Query {
 
     // login customer query
     public String loginCustomer(final String username, final String password) {
-        return Actions.SELECT_ALL + "FROM " + Actions.CUSTOMERS_TABLE + " " +
+        return  Actions.SELECT_ALL + "FROM " + Actions.CUSTOMERS_TABLE + " " +
                 "WHERE username = \"" + username + "\" " +
                 "AND password = \"" + password + "\";";
     }
 
     // find available seats query
     public String findAvailableSeats(final String departure, final String arrival, final String ticketAmount) {
-        return Actions.SELECT_ALL + "FROM " + Actions.FLIGHTS_TABLE + " " +
+        return  Actions.SELECT_ALL + "FROM " + Actions.FLIGHTS_TABLE + " " +
                 "WHERE departure = \"" + departure + "\" " +
                 "AND destination = \"" + arrival + "\"" +
                 "AND flights.capacity - flights.reserved >= " + Integer.parseInt(ticketAmount) + ";";
@@ -43,14 +43,14 @@ public class Query {
 
     // updated selected flights seat query
     public String updateFlightReserved(final String flightName, final int ticketAmount) {
-        return Actions.UPDATE + Actions.FLIGHTS_TABLE + " " +
+        return  Actions.UPDATE + Actions.FLIGHTS_TABLE + " " +
                 "SET reserved = reserved + " + ticketAmount + " " +
                 "WHERE name = \"" + flightName + "\";";
     }
 
     // get customers reservations query
     public String getCustomerReservation(final String customerID) {
-        return Actions.SELECT + Actions.RESERVATIONS_TABLE + ".*, " +
+        return  Actions.SELECT + Actions.RESERVATIONS_TABLE + ".*, " +
                 Actions.FLIGHTS_TABLE + ".*, " +
                 Actions.CUSTOMERS_TABLE + ".* " +
                 "FROM " + Actions.RESERVATIONS_TABLE + " " +
@@ -59,6 +59,12 @@ public class Query {
                 Actions.INNER_JOIN + Actions.CUSTOMERS_TABLE + " " +
                 "ON " + Actions.CUSTOMERS_TABLE + ".customer_id = " + Actions.RESERVATIONS_TABLE + ".customer_id " +
                 "WHERE " + Actions.RESERVATIONS_TABLE + ".customer_id = \"" + customerID + "\";";
+    }
+
+    // remove customer reservation query
+    public String removeCustomerReservation(final int reservationID) {
+        return  Actions.DELETE + "FROM " + Actions.RESERVATIONS_TABLE + " " +
+                "WHERE reservation_id = \"" + reservationID + "\";";
     }
 
     private boolean checkInjection(String query) {

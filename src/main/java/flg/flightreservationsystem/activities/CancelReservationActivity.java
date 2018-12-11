@@ -1,20 +1,16 @@
 package flg.flightreservationsystem.activities;
 
-import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import flg.flightreservationsystem.R;
 import flg.flightreservationsystem.database.Database;
 import flg.flightreservationsystem.database.Query;
-import flg.flightreservationsystem.src.Flight;
 import flg.flightreservationsystem.src.Reservation;
 
 public class CancelReservationActivity extends AppCompatActivity {
@@ -173,7 +169,7 @@ public class CancelReservationActivity extends AppCompatActivity {
 
                 // create "confirm" button and event
                 .setPositiveButton("Yes, Cancel Now", (di, id) -> {
-
+                    cancelReservation();
                 })
 
                 // create "back" button and event
@@ -181,6 +177,17 @@ public class CancelReservationActivity extends AppCompatActivity {
 
                 // display alert
                 .show();
+    }
+
+    private void cancelReservation() {
+
+        // delete reservation from customer
+        query.write(query.removeCustomerReservation(
+                reservation.getReservationID()), db
+        );
+
+        // finish activity and return to main menu
+       finish();
     }
 
 }
