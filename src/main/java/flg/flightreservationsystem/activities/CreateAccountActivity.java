@@ -24,7 +24,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     // instantiate query
     Query query = new Query();
 
-    // instantiane validator
+    // instantiate validator
     Validate validate = new Validate();
 
     @Override
@@ -123,8 +123,14 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     private void message(final String message, final Boolean success) {
 
+        // prevent alert from dissmissing on outside click
+        this.setFinishOnTouchOutside(false);
+
         // create a new alert dialog
         new AlertDialog.Builder(this)
+
+                // prevent alert from dismissing on back click
+                .setCancelable(false)
 
                 //set icon
                 .setIcon(success ? android.R.drawable.ic_dialog_info : android.R.drawable.ic_dialog_alert)

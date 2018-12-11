@@ -136,8 +136,15 @@ public class ReserveSeatActivity extends AppCompatActivity {
     }
 
     private void displayAvailableFlights() {
+
+        // prevent alert from dissmissing on outside click
+        this.setFinishOnTouchOutside(false);
+
         // setup the alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // prevent alert from dismissing on back click
+        builder.setCancelable(false);
 
         // set title
         builder.setTitle("Found " + flights.size() + " Available Flights\n");
@@ -179,8 +186,14 @@ public class ReserveSeatActivity extends AppCompatActivity {
 
     private void confirmSelectedFlight() {
 
+        // prevent alert from dissmissing on outside click
+        this.setFinishOnTouchOutside(false);
+
         // setup the alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // prevent alert from dismissing on back click
+        builder.setCancelable(false);
 
         // set title
         builder.setTitle("Confirm information for flight " + flight.getFlightName());
@@ -235,8 +248,14 @@ public class ReserveSeatActivity extends AppCompatActivity {
 
     private void message(final String message, final Boolean success) {
 
+        // prevent alert from dissmissing on outside click
+        this.setFinishOnTouchOutside(false);
+
         // create a new alert dialog
         new AlertDialog.Builder(this)
+
+                // prevent alert from dismissing on back click
+                .setCancelable(false)
 
                 //set icon
                 .setIcon(success ? android.R.drawable.ic_dialog_info : android.R.drawable.ic_dialog_alert)

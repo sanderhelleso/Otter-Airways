@@ -74,6 +74,10 @@ public class CancelReservationActivity extends AppCompatActivity {
     }
 
     private void displayAvailableReservations() {
+
+        // prevent alert from dissmissing on outside click
+        this.setFinishOnTouchOutside(false);
+
         // setup the alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -142,8 +146,14 @@ public class CancelReservationActivity extends AppCompatActivity {
 
     private void confirmCancelReservation() {
 
+        // prevent alert from dissmissing on outside click
+        this.setFinishOnTouchOutside(false);
+
         // create a new alert dialog
         new AlertDialog.Builder(this)
+
+                // prevent alert from dismissing on back click
+                .setCancelable(false)
 
                 //set icon
                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -160,9 +170,7 @@ public class CancelReservationActivity extends AppCompatActivity {
                 })
 
                 // create "back" button and event
-                .setNegativeButton("No, Back", (di, id) -> {
-                    displayReservationDetails();
-                })
+                .setNegativeButton("No, Back", (di, id) -> displayReservationDetails())
 
                 // display alert
                 .show();
