@@ -60,7 +60,7 @@ public class CancelReservationActivity extends AppCompatActivity {
 
             // check for valid reservations
             if (reservations.size() <= 0) {
-
+                displayNoReservationsFound();
             }
 
             else {
@@ -179,11 +179,43 @@ public class CancelReservationActivity extends AppCompatActivity {
                 .show();
     }
 
+    private void displayNoReservationsFound() {
+
+        // prevent alert from dissmissing on outside click
+        this.setFinishOnTouchOutside(false);
+
+        // create a new alert dialog
+        new AlertDialog.Builder(this)
+
+                // prevent alert from dismissing on back click
+                .setCancelable(false)
+
+                //set icon
+                .setIcon(android.R.drawable.ic_dialog_alert)
+
+                //set title
+                .setTitle("  No Reservations Found")
+
+                //set message
+                .setMessage("\n\nNo reservations were found registred to this username.")
+
+                // create "confirm" button and event
+                .setPositiveButton("Exit", (di, id) -> finish())
+
+                // display alert
+                .show();
+    }
+
     private void cancelReservation() {
 
         // delete reservation from customer
         query.write(query.removeCustomerReservation(
                 reservation.getReservationID()), db
+        );
+
+        // update flights seat amount
+        query.write(query.updateFlightSeatsAfterCancel(
+                reservation.getFlightName(), reservation.getSeats()), db
         );
 
         // finish activity and return to main menu

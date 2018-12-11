@@ -26,11 +26,12 @@ public class Query {
                 "VALUES (\"" + seats + "\", \"" + flight.getFlightName() + "\", \"" + customerID + "\");";
     }
 
-    // login customer query
-    public String loginCustomer(final String username, final String password) {
+    // login customer / admin query
+    public String loginCustOrAdmin(final String username, final String password, final boolean admin) {
         return  Actions.SELECT_ALL + "FROM " + Actions.CUSTOMERS_TABLE + " " +
                 "WHERE username = \"" + username + "\" " +
-                "AND password = \"" + password + "\";";
+                "AND password = \"" + password + "\"" +
+                "AND admin = \"" + admin + "\";";
     }
 
     // find available seats query
@@ -65,6 +66,13 @@ public class Query {
     public String removeCustomerReservation(final int reservationID) {
         return  Actions.DELETE + "FROM " + Actions.RESERVATIONS_TABLE + " " +
                 "WHERE reservation_id = \"" + reservationID + "\";";
+    }
+
+    // update seat amount query
+    public String updateFlightSeatsAfterCancel(final String flightName, final int ticketAmount) {
+        return  Actions.UPDATE + Actions.FLIGHTS_TABLE + " " +
+                "SET reserved = reserved - " + ticketAmount + " " +
+                "WHERE name = \"" + flightName + "\";";
     }
 
     private boolean checkInjection(String query) {

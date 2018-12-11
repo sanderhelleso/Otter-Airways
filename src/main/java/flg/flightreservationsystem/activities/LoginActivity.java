@@ -32,10 +32,16 @@ public class LoginActivity extends AppCompatActivity {
     private String customerID;
     private String customerUN;
 
+    // refirect to activity
+    private String redirectTo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // set redirect
+        redirectTo = getIntent().getStringExtra("redirect_to");
 
         // check for confirm
         isConfirm();
@@ -80,14 +86,14 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             // attempt to login user with recieved data properties
-            login(username, password);
+            login(username, password, redirectTo.equals("manage"));
         });
     }
 
-    private void login(final String username, final String password) {
+    private void login(final String username, final String password, final boolean admin) {
 
         // get hashmap and response (success / error, message)
-        final HashMap<Boolean, Map<String, String>> resultMap = query.login(query.loginCustomer(username, password), db);
+        final HashMap<Boolean, Map<String, String>> resultMap = query.login(query.loginCustOrAdmin(username, password, admin), db);
         final Map.Entry<Boolean, Map<String, String>> entry = resultMap.entrySet().iterator().next();
         final Boolean success = entry.getKey();
 
@@ -132,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                         // start next activity
-                        if (getIntent().getStringExtra("redirect_to") != null) {
+                        if (redirectTo != null) {
                             switch (getIntent().getStringExtra("redirect_to")) {
                                 case "cancel":
                                     // start "cancel seats" activity

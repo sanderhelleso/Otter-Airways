@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         CANCEL_RESERVATION.setOnClickListener(v -> {
 
             // open intent on button click
-
             Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("redirect_to", "cancel");
             this.startActivity(intent);
@@ -84,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         final Button MANAGE_SYSTEM = findViewById(R.id.manage_system);
         MANAGE_SYSTEM.setOnClickListener(v -> {
 
-
+            // open intent on button click
             Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("redirect_to", "manage");
             this.startActivity(intent);
