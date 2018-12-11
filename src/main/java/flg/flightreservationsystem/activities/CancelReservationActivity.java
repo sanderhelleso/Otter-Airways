@@ -81,6 +81,9 @@ public class CancelReservationActivity extends AppCompatActivity {
         // setup the alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
+        // prevent alert from dismissing on back click
+        builder.setCancelable(false);
+
         // set title
         builder.setTitle("My Reservations\n\n");
 
@@ -118,13 +121,17 @@ public class CancelReservationActivity extends AppCompatActivity {
 
     private void displayReservationDetails() {
 
+        // prevent alert from dissmissing on outside click
+        this.setFinishOnTouchOutside(false);
+
         // setup the alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
+        // prevent alert from dismissing on back click
+        builder.setCancelable(false);
+
         // set title
         builder.setTitle("Reservation #" + reservation.getReservationID());
-
-        // build message with price per ticket and total price
 
         // set built message
         builder.setMessage(reservation.toString());
