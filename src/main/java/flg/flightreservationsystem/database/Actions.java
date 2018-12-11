@@ -26,13 +26,15 @@ public class Actions {
     public static final String DELETE_CASCADE = "ON DELETE CASCADE ";
     public static final String INSERT_INTO =    "INSERT INTO ";
     public static final String SELECT_ALL =     "SELECT * ";
+    public static final String SELECT =         "SELECT ";
     public static final String UPDATE =         "UPDATE ";
+    public static final String INNER_JOIN =     "INNER JOIN ";
 
     // base database table names
-    public static final String LOGS_TABLE =           "logs ";
-    public static final String CUSTOMERS_TABLE =      "customers ";
-    public static final String FLIGHTS_TABLE =        "flights ";
-    public static final String RESERVATIONS_TABLE =   "reservations ";
+    public static final String LOGS_TABLE =           "logs";
+    public static final String CUSTOMERS_TABLE =      "customers";
+    public static final String FLIGHTS_TABLE =        "flights";
+    public static final String RESERVATIONS_TABLE =   "reservations";
 
     // base database colums
     public static final String CUSTOMER_COLUMNS =       "(username, password, admin) ";
