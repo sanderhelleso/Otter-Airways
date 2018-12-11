@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -100,7 +101,7 @@ public class CancelReservationActivity extends AppCompatActivity {
 
         // set "Select" button
         builder.setPositiveButton("See Details", (dialog, which) -> {
-
+            displayReservationDetails();
         });
 
         // set "Cancel" button
@@ -109,6 +110,62 @@ public class CancelReservationActivity extends AppCompatActivity {
         // create and show the dialog
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void displayReservationDetails() {
+
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // set title
+        builder.setTitle("Reservation #" + reservation.getReservationID());
+
+        // build message with price per ticket and total price
+
+        // set built message
+        builder.setMessage(reservation.toString());
+
+        // set "Confirm" button
+        builder.setPositiveButton("Cancel Reservation", (dialog, which) -> {
+
+            // update screen with confirm cancel reservation alert
+            confirmCancelReservation();
+        });
+
+        // set "Cancel" button
+        builder.setNegativeButton("Back", (dialog, which) -> displayAvailableReservations());
+
+        // create and show the dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void confirmCancelReservation() {
+
+        // create a new alert dialog
+        new AlertDialog.Builder(this)
+
+                //set icon
+                .setIcon(android.R.drawable.ic_dialog_alert)
+
+                //set title
+                .setTitle("  Cancel Reservation")
+
+                //set message
+                .setMessage("\n\nAre you sure you want to cancel the reservation for flight " + reservation.getFlightName() + "?. Canceling the reservation will remove your reserved tickets.\n\nThis action is NOT be reversible.\n\n\nDo you want to proceed?")
+
+                // create "confirm" button and event
+                .setPositiveButton("Yes, Cancel Now", (di, id) -> {
+
+                })
+
+                // create "back" button and event
+                .setNegativeButton("No, Back", (di, id) -> {
+                    displayReservationDetails();
+                })
+
+                // display alert
+                .show();
     }
 
 }

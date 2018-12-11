@@ -111,9 +111,9 @@ public class Query {
                             capacity,
                             price,
                             reserved,
-                            customerID,
-                            seats,
                             reservationID,
+                            seats,
+                            customerID,
                             username
                             )
                     );

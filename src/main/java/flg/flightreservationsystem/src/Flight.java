@@ -1,6 +1,7 @@
 package flg.flightreservationsystem.src;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 
 public class Flight implements Serializable {
 

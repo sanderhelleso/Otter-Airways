@@ -130,7 +130,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                 .setIcon(success ? android.R.drawable.ic_dialog_info : android.R.drawable.ic_dialog_alert)
 
                 //set title
-                .setTitle(success ? "Success" : "Error")
+                .setTitle(success ? "  Success" : "  Error")
 
                 //set message
                 .setMessage(message)
