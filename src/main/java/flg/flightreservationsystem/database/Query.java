@@ -4,12 +4,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
+import java.sql.Date;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import flg.flightreservationsystem.src.Flight;
+import flg.flightreservationsystem.src.LogEntry;
 import flg.flightreservationsystem.src.Reservation;
 
 public class Query {
@@ -75,12 +77,78 @@ public class Query {
                 "WHERE name = \"" + flightName + "\";";
     }
 
+    // get logs query
+    public String getLogs() {
+        return  Actions.SELECT + Actions.LOGS_TABLE + ".*, " +
+                Actions.CUSTOMERS_TABLE + ".username " +
+                "FROM " + Actions.LOGS_TABLE + " " +
+                Actions.INNER_JOIN + Actions.CUSTOMERS_TABLE + " " +
+                "ON " + Actions.LOGS_TABLE + ".user = " + Actions.CUSTOMERS_TABLE + ".customer_id;";
+    }
+
     private boolean checkInjection(String query) {
         return query.contains("\"; ");
     }
 
+    public HashMap<String, ArrayList<LogEntry>> logs(String stmt, Database db) {
 
-    public HashMap<String, ArrayList<Reservation>> read(String stmt, Database db) {
+        // instantiate new map to store data
+        final HashMap<String, ArrayList<LogEntry>> MAP = new HashMap<>();
+
+        // instantiante new arraylist
+        final ArrayList<LogEntry> LOGS = new ArrayList<>();
+
+        // validate query statement
+        if (checkInjection(stmt)) {
+            MAP.put(Actions.SQL_ERROR, LOGS);
+            return MAP;
+        }
+
+        // attempt to read statement
+        final Cursor cursor = db.getReadableDatabase().rawQuery(stmt, null);
+        try {
+
+            if (cursor.moveToFirst()) {
+
+                // itterate over result and create logs
+                while (!cursor.isAfterLast()) {
+
+                    // retrieve log values
+                    final int entryID = Integer.parseInt(cursor.getString(cursor.getColumnIndex("entry_id")));
+                    final String type = cursor.getString(cursor.getColumnIndex("type"));
+                    final String timestamp = cursor.getString(cursor.getColumnIndex("timestamp"));
+                    final String username = cursor.getString(cursor.getColumnIndex("username"));
+
+                    // add log to list
+                    LOGS.add(new LogEntry(entryID, type, timestamp, username));
+
+                    // move to reservation flight
+                    cursor.moveToNext();
+                }
+            }
+
+            // fill map and return
+            MAP.put(Actions.LOGS_FOUND, LOGS);
+            return MAP;
+        }
+
+        // if any error, throw and display
+        catch (SQLiteException e) {
+
+            // catch and display potensial errors
+            MAP.put(Actions.DEFAULT_ERROR + e.getMessage() + Actions.CONTACT_ADMIN, LOGS);
+            return MAP;
+        }
+
+        // close connection
+        finally {
+            db.close();
+            cursor.close();
+        }
+    }
+
+
+    public HashMap<String, ArrayList<Reservation>> reservations(String stmt, Database db) {
 
         // instantiate new map to store data
         final HashMap<String, ArrayList<Reservation>> MAP = new HashMap<>();
@@ -267,7 +335,7 @@ public class Query {
         }
     }
 
-    public HashMap<Boolean, Map.Entry<String, ArrayList<Flight>>> find(String stmt, Database db) {
+    public HashMap<Boolean, Map.Entry<String, ArrayList<Flight>>> flight(String stmt, Database db) {
 
         // create a new hashmap to put boolean value and message
         final HashMap<Boolean, Map.Entry<String, ArrayList<Flight>>> MAP = new HashMap<>();

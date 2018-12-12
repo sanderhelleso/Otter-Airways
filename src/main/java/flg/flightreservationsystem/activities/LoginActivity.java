@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             // attempt to login user with recieved data properties
-            login(username, password, redirectTo.equals("manage"));
+            login(username, password, redirectTo == "manage" ? true : false);
         });
     }
 

@@ -113,7 +113,7 @@ public class ReserveSeatActivity extends AppCompatActivity {
             this.ticketAmount = Integer.parseInt(ticketAmount);
 
             // attempt to find available seats
-            final HashMap<Boolean, Map.Entry<String, ArrayList<Flight>>> RESULT = query.find(
+            final HashMap<Boolean, Map.Entry<String, ArrayList<Flight>>> RESULT = query.flight(
                     query.findAvailableSeats(seatsFrom, seatsTo, ticketAmount), db);
 
             // validate result

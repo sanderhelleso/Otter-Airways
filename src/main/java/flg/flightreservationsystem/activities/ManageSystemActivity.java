@@ -3,21 +3,92 @@ package flg.flightreservationsystem.activities;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import flg.flightreservationsystem.R;
+import flg.flightreservationsystem.database.Database;
+import flg.flightreservationsystem.database.Query;
+import flg.flightreservationsystem.src.LogEntry;
+import flg.flightreservationsystem.src.Reservation;
 
 public class ManageSystemActivity extends AppCompatActivity {
+
+    // instantate new database
+    private final Database db = new Database(this);
+
+    // initiate new query
+    private final Query query = new Query();
+
+    // instantiate new log list
+    private ArrayList<LogEntry> logs = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_system);
 
-        // display logs
-        displayLogs();
+        // load logs
+        loadData();
+    }
+
+    private void loadData() {
+
+        // attempt to fetch system logs
+        final HashMap<String, ArrayList<LogEntry>> data = query.logs(
+                query.getLogs(), db
+        );
+
+        // assign reservations
+        logs = data.entrySet().iterator().next().getValue();
+
+        // check for valid reservations
+        if (logs.size() <= 0) {
+            displayNoLogsFound();
+        }
+
+        else {
+            displayLogs();
+        }
     }
 
     private void displayLogs() {
+
+        // prevent alert from dissmissing on outside click
+        this.setFinishOnTouchOutside(false);
+
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // prevent alert from dismissing on back click
+        builder.setCancelable(false);
+
+        // set title
+        builder.setTitle("System Logs\n\n");
+
+        // create list of logs
+        String[] systemLogs = new String[logs.size()];
+        for (int i = 0; i < logs.size(); i++) {
+            systemLogs[i] = logs.get(i).getTimestamp();
+        }
+
+        // set list with available flight options
+        builder.setItems(systemLogs, null);
+
+        // create "confirm" button and event
+        builder.setPositiveButton("Confirm", (di, id) -> initialForm());
+
+        // create "exit" button and event
+        builder.setNegativeButton("Exit", (di, id) -> finish());
+
+        // create and show the dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void displayNoLogsFound() {
 
         // prevent alert from dissmissing on outside click
         this.setFinishOnTouchOutside(false);
@@ -29,13 +100,13 @@ public class ManageSystemActivity extends AppCompatActivity {
                 .setCancelable(false)
 
                 //set icon
-                .setIcon(android.R.drawable.ic_dialog_info)
+                .setIcon(android.R.drawable.ic_dialog_alert)
 
                 //set title
-                .setTitle("  Logs")
+                .setTitle("  No Logs At This Moment")
 
                 //set message
-                .setMessage("\n\nThis is some log info")
+                .setMessage("\n\nNo logs were found at this moment.")
 
                 // create "confirm" button and event
                 .setPositiveButton("Confirm", (di, id) -> initialForm())

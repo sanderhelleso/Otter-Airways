@@ -51,7 +51,7 @@ public class CancelReservationActivity extends AppCompatActivity {
         if (customerID != null) {
 
             // attempt to fetch logged in customers reserved seats
-            final HashMap<String, ArrayList<Reservation>> data = query.read(
+            final HashMap<String, ArrayList<Reservation>> data = query.reservations(
                     query.getCustomerReservation(customerID), db
             );
 

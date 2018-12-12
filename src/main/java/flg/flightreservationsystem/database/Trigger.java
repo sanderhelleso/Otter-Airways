@@ -30,7 +30,7 @@ public class Trigger {
     }
 
     public String cancelReservation() {
-        return  "CREATE TRIGGER new_flight AFTER DELETE ON " +
+        return  "CREATE TRIGGER cancel_reservation AFTER DELETE ON " +
                 "reservations BEGIN INSERT INTO logs " +
                 "(type, timestamp, user) " +
                 "VALUES ('Cancellation of Reservation', datetime('NOW'), OLD.customer_id); " +
