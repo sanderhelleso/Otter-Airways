@@ -208,8 +208,8 @@ public class ReserveSeatActivity extends AppCompatActivity {
 
         // build message with price per ticket and total price
 
-        StringBuilder message = new StringBuilder(flight.toString());
-        message.append("\nUsername: ").append(customerUN);
+        StringBuilder message = new StringBuilder("Username: ").append(customerUN);
+        message.append(flight.toString());
         message.append("\nPrice: per ticket: $");
         message.append(df.format(flight.getPrice()));
         message.append("\nAmount of tickets: ");

@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private String customerID;
     private String customerUN;
 
-    // refirect to activity
+    // redirect to activity
     private String redirectTo;
 
     @Override
@@ -86,7 +86,13 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             // attempt to login user with recieved data properties
-            login(username, password, redirectTo == "manage" ? true : false);
+            if (redirectTo != null && redirectTo.equals("manage")) {
+                login(username, password, true);
+            }
+
+            else {
+                login(username, password, false);
+            }
         });
     }
 

@@ -3,16 +3,15 @@ package flg.flightreservationsystem.activities;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import flg.flightreservationsystem.R;
 import flg.flightreservationsystem.database.Database;
 import flg.flightreservationsystem.database.Query;
 import flg.flightreservationsystem.src.LogEntry;
-import flg.flightreservationsystem.src.Reservation;
 
 public class ManageSystemActivity extends AppCompatActivity {
 
@@ -67,6 +66,9 @@ public class ManageSystemActivity extends AppCompatActivity {
 
         // set title
         builder.setTitle("System Logs\n\n");
+
+        // revert list to get most recent at top
+        Collections.reverse(logs);
 
         // create list of logs
         String[] systemLogs = new String[logs.size()];

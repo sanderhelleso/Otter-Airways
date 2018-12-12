@@ -2,10 +2,15 @@ package flg.flightreservationsystem.src;
 
 import java.text.DecimalFormat;
 
+import flg.flightreservationsystem.helpers.Util;
+
 public class Reservation extends Flight {
 
-    // intantate new decimal formater to ensure number contains two decimals
-    DecimalFormat df = new DecimalFormat("#.00");
+    // instantiate new util
+    private final Util UTIL = new Util();
+
+    // instantiate new decimal formater to ensure number contains two decimals
+    private final DecimalFormat df = new DecimalFormat("#.00");
 
     private int reservationID;
     private int seats;
@@ -60,7 +65,7 @@ public class Reservation extends Flight {
                 "Flight Name: " + getFlightName() + "\n" +
                 "Departure: " + getDeparture() + "\n" +
                 "Destination: " + getDestination() + "\n" +
-                "Departure Time: " + getTime() + "\n" +
+                "Departure Time: " + UTIL.getDateMarkerFromHourMin(getTime()) + "\n" +
                 "Price per ticket: " + df.format(getPrice()) + "$\n" +
                 "Amount of tickets: " + getSeats() + "\n\n\n" +
                 "Total Price: $" + df.format(totalPrice) + "\n";

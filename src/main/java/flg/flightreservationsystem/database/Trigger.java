@@ -33,7 +33,7 @@ public class Trigger {
         return  "CREATE TRIGGER cancel_reservation AFTER DELETE ON " +
                 "reservations BEGIN INSERT INTO logs " +
                 "(type, timestamp, user) " +
-                "VALUES ('Cancellation of Reservation', datetime('NOW'), OLD.customer_id); " +
+                "VALUES ('Cancellation', datetime('NOW'), OLD.customer_id); " +
                 "END;";
 
     }

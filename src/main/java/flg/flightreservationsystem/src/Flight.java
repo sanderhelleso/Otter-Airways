@@ -3,7 +3,12 @@ package flg.flightreservationsystem.src;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 
+import flg.flightreservationsystem.helpers.Util;
+
 public class Flight implements Serializable {
+
+    // instantiate new util
+    private final Util UTIL = new Util();
 
     private String flightName;
     private String departure;
@@ -53,9 +58,9 @@ public class Flight implements Serializable {
 
     @Override
     public String toString() {
-        return  "\n\nFlight Name: " + flightName + "\n" +
+        return  "\nFlight Name: " + flightName + "\n" +
                 "Departure: " + departure + "\n" +
                 "Destination: " + destination + "\n" +
-                "Departure Time: " + time + "\n";
+                "Departure Time: " + UTIL.getDateMarkerFromHourMin(time);
     }
 }
