@@ -86,6 +86,26 @@ public class Query {
                 "ON " + Actions.LOGS_TABLE + ".user = " + Actions.CUSTOMERS_TABLE + ".customer_id;";
     }
 
+    // check for flight number query
+    public String createNewFlight(
+            final String flightNumber,
+            final String departure,
+            final String destination,
+            final int time,
+            final int capacity,
+            final double price
+    ) {
+        return  Actions.INSERT_INTO + Actions.FLIGHTS_TABLE + Actions.FLIGHTS_COLUMNS +
+                " VALUES (\"" + flightNumber + "\"," +
+                " \"" + departure + "\"," +
+                " \"" + destination + "\"," +
+                " \"" + time + "\"," +
+                " \"" + capacity + "\", " +
+                " \"" + price + ", " +
+                "0);";
+    }
+
+
     private boolean checkInjection(String query) {
         return query.contains("\"; ");
     }
@@ -275,7 +295,40 @@ public class Query {
         catch (SQLiteException e) {
 
             // catch and display potensial errors
-            MAP.put(false, Actions.DEFAULT_ERROR + e.getMessage() + Actions.CONTACT_ADMIN);
+            MAP.put(false, Actions.DEFAULT_ERROR + "The username is taken by another user.");
+            return MAP;
+        }
+
+        // close connection
+        finally {
+            db.close();
+        }
+    }
+
+    public HashMap<Boolean, String> insertNewFlight(String query, Database db) {
+
+        // create a new hashmap to put boolean value and message
+        final HashMap<Boolean, String> MAP = new HashMap<>();
+
+        // validate insert statement
+        if (checkInjection(query)) {
+            MAP.put(false, Actions.SQL_ERROR);
+            return MAP;
+        }
+
+        try {
+
+            // run query
+            db.getWritableDatabase().execSQL(query);
+            MAP.put(true, Actions.NEW_FLIGHT_ADDED);
+            return MAP;
+
+        }
+
+        catch (SQLiteException e) {
+
+            // catch and display potensial errors
+            MAP.put(false, Actions.DEFAULT_ERROR + "Flight Number already exists. ");
             return MAP;
         }
 

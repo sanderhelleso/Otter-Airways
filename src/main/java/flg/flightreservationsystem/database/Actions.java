@@ -12,6 +12,7 @@ public class Actions {
     public static final String FLIGHTS_NOT_FOUND =  "Sorry. No available seats matching your criterias were found.\n\n" + "To solve this you can try  the following:\n" + "\n-Different departure\n-Different destination" + "\n-Change the amount of tickets" + "\n\nIf none of the above works and you are sure flights should be available, " + "please contact the administrator.";
     public static final String LOGS_FOUND =         "Successfully fetched system logs";
     public static final String RESERVATIONS_FOUND = "Reservations found";
+    public static final String NEW_FLIGHT_ADDED =   "Successfully created new flight record. Customers can now browse and reserve seats for this flight";
 
     // base SQL actions
     public static final String CREATE =             "CREATE TABLE ";

@@ -16,22 +16,22 @@ public class Util {
         catch (ParseException e) {
             e.printStackTrace();
         }
-        return " (" + new SimpleDateFormat("aa").format(date) + ")";
+        return new SimpleDateFormat("aa").format(date);
     }
 
     public String getDateMarkerFromHourMin(final int hm) {
 
         // Displaying given time in 12 hour format with AM/PM
-        String dateString = String.valueOf(hm).substring(0, 1) + "." + String.valueOf(hm).substring(2, 3);
+        String dateString = String.valueOf(hm).substring(0, 1) + ":" + String.valueOf(hm).substring(2, 3);
 
         //old format
-        SimpleDateFormat sdf = new SimpleDateFormat("HH.mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
         try{
             Date date = sdf.parse(dateString);
 
             //new format
-            SimpleDateFormat newSdf = new SimpleDateFormat("hh.mm aa");
+            SimpleDateFormat newSdf = new SimpleDateFormat("hh:mm aa");
 
             //formatting the given time to new format with AM/PM
             dateString = newSdf.format(date);
