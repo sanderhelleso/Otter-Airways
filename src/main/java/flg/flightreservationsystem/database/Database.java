@@ -10,6 +10,9 @@ public class Database extends SQLiteOpenHelper {
     // instantiate new database
     private SQLiteDatabase db;
 
+    // instantiate new trigger
+    private final Trigger TRIGGER = new Trigger();
+
     // instantiate new query
     private final Statement STATEMENT = new Statement();
 
@@ -35,6 +38,9 @@ public class Database extends SQLiteOpenHelper {
         // insert default users and flights
         STATEMENT.insertDefaultCustomers().forEach((stmt) -> db.execSQL(stmt));
         STATEMENT.insertDefaultFlights().forEach((stmt) -> db.execSQL(stmt));
+
+        // set database triggers
+        db.execSQL(TRIGGER.updateCustomer());
 
         Log.i("DB_CREATED", "Database created...");
     }

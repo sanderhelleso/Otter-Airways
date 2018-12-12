@@ -1,5 +1,7 @@
 package flg.flightreservationsystem.database;
 
+import android.animation.TypeEvaluator;
+
 import java.util.ArrayList;
 
 public class Statement {
@@ -11,17 +13,16 @@ public class Statement {
 
         // table columns
         final String ID =           "entry_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ";
+        final String TYPE =         "type VARCHAR(40) NOT NULL, ";
         final String TIMESTAMP =    "timestamp DATETIME NOT NULL, ";
-        final String USER =         "user VARCHAR(20) NOT NULL, ";
-        final String DESCRIPTION =  "description VARCHAR(40) NULL";
-
+        final String USER =         "user VARCHAR(20) NOT NULL";
         // create log table and return statement
         return Actions.CREATE + Actions.LOGS_TABLE +
                 "(" +
                     ID +
+                    TYPE +
                     TIMESTAMP +
                     USER +
-                    DESCRIPTION +
                 ");";
 
     }
