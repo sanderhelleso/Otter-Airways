@@ -157,6 +157,15 @@ public class ManageSystemActivity extends AppCompatActivity {
 
     private void initialForm() {
 
+        // "add flight" button
+        final Button addFlightBtn = findViewById(R.id.addFlightBtn);
+
+        // add event to button
+        addFlightBtn.setOnClickListener(v -> validate());
+    }
+
+    private void validate() {
+
         // recieve form elements
         final EditText newFlightNumber = findViewById(R.id.newFlightNumber);
         final EditText newFlightDeparture = findViewById(R.id.newFlightDeparture);
@@ -164,9 +173,6 @@ public class ManageSystemActivity extends AppCompatActivity {
         final EditText newFlightTime = findViewById(R.id.newFlightTime);
         final EditText newFlightCapacity = findViewById(R.id.newFlightCapacity);
         final EditText newFlightPrice = findViewById(R.id.newFlightPrice);
-
-        // "add flight" button
-        final Button addFlightBtn = findViewById(R.id.addFlightBtn);
 
         // recieve element data
         final String flightNumber = newFlightNumber.getText().toString().trim();
@@ -176,56 +182,51 @@ public class ManageSystemActivity extends AppCompatActivity {
         final String flightCapacity = newFlightCapacity.getText().toString().trim();
         final String flightPrice = newFlightPrice.getText().toString().trim();
 
-        // add event to button
-        addFlightBtn.setOnClickListener(v -> {
+        // check for empty values
+        if (TextUtils.isEmpty(flightNumber)) {
+            newFlightNumber.setError("Please enter a Flight Number");
+        }
 
-            // check for empty values
-            if (TextUtils.isEmpty(flightNumber)) {
-                newFlightNumber.setError("Please enter a Flight Number");
-            }
+        else if (TextUtils.isEmpty(flightDeparture)) {
+            newFlightDeparture.setError("Please enter the Flight Departure");
+        }
 
-            else if (TextUtils.isEmpty(flightDeparture)) {
-                newFlightDeparture.setError("Please enter the Flight Departure");
-            }
+        else if (TextUtils.isEmpty(flightDestination)) {
+            newFlightDestination.setError("Please enter the Flight Destination");
+        }
 
-            else if (TextUtils.isEmpty(flightDestination)) {
-                newFlightDestination.setError("Please enter the Flight Destination");
-            }
+        else if (TextUtils.isEmpty(flightTime)) {
+            newFlightTime.setError("Please enter a Flight Time for departure");
+        }
 
-            else if (TextUtils.isEmpty(flightTime)) {
-                newFlightTime.setError("Please enter a Flight Time for departure");
-            }
+        else if (TextUtils.isEmpty(flightCapacity)) {
+            newFlightCapacity.setError("Please enter a maximum Flight Capacity");
+        }
 
-            else if (TextUtils.isEmpty(flightCapacity)) {
-                newFlightCapacity.setError("Please enter a maximum Flight Capacity");
-            }
+        else if (TextUtils.isEmpty(flightPrice)) {
+            newFlightPrice.setError("Please enter a valid Flight Price per ticket");
+        }
 
-            else if (TextUtils.isEmpty(flightPrice)) {
-                newFlightPrice.setError("Please enter a valid Flight Price per ticket");
-            }
+        // attempt to add new flight
+        else {
 
-            // attempt to add new flight
-            else {
+            // get hashmap and response (success / error, message)
+            HashMap<Boolean, String> resultMap = query.insertNewFlight(
+                    query.createNewFlight(
+                            flightNumber,
+                            flightDeparture,
+                            flightDestination,
+                            Integer.parseInt(flightTime),
+                            Integer.parseInt(flightCapacity),
+                            Double.parseDouble(flightPrice)
+                    ), db
+            );
 
-                // get hashmap and response (success / error, message)
-                HashMap<Boolean, String> resultMap = query.insertNewFlight(
-                        query.createNewFlight(
-                                flightNumber,
-                                flightDeparture,
-                                flightDestination,
-                                Integer.parseInt(flightTime),
-                                Integer.parseInt(flightCapacity),
-                                Double.parseDouble(flightPrice)
-                        ), db
-                );
-
-                Map.Entry<Boolean, String> entry = resultMap.entrySet().iterator().next();
-                Boolean success = entry.getKey();
-                String message = entry.getValue();
-                message(message, success);
-            }
-
-        });
+            Map.Entry<Boolean, String> entry = resultMap.entrySet().iterator().next();
+            Boolean success = entry.getKey();
+            String message = entry.getValue();
+            message(message, success);
+        }
     }
 
     private void message(final String message, final Boolean success) {
@@ -249,11 +250,7 @@ public class ManageSystemActivity extends AppCompatActivity {
                 .setMessage(message)
 
                 // create "confirm" button and event
-                .setPositiveButton("Confirm", (di, id) -> {
-                    if (success) {
-                        finish();
-                    }
-                })
+                .setPositiveButton("Confirm", (di, id) -> finish())
 
                 // display alert
                 .show();

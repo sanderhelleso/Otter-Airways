@@ -3,16 +3,16 @@ package flg.flightreservationsystem.database;
 public class Actions {
 
     // default error messages
-    public static final String SQL_ERROR =          "Custom SQL detected. Abort query";
-    public static final String DEFAULT_ERROR =      "Hmm..Something went wrong.\nThe following error occured: \n\n";
+    public static final String SQL_ERROR =          "\nCustom SQL detected. Abort query";
+    public static final String DEFAULT_ERROR =      "\nHmm..Something went wrong.\nThe following error occured: \n\n";
     public static final String CONTACT_ADMIN =      "\n\nPlease contact the administrator";
-    public static final String ACCOUNT_CREATED =    "Account Successfully Created!\n\nYou can now log into your new account to reserve and cancel seats for your next flight";
-    public static final String LOGIN_SUCCESS =      "Successfully login!";
-    public static final String LOGIN_FAILED =       "Invalid username or password.\n";
-    public static final String FLIGHTS_NOT_FOUND =  "Sorry. No available seats matching your criterias were found.\n\n" + "To solve this you can try  the following:\n" + "\n-Different departure\n-Different destination" + "\n-Change the amount of tickets" + "\n\nIf none of the above works and you are sure flights should be available, " + "please contact the administrator.";
-    public static final String LOGS_FOUND =         "Successfully fetched system logs";
-    public static final String RESERVATIONS_FOUND = "Reservations found";
-    public static final String NEW_FLIGHT_ADDED =   "Successfully created new flight record. Customers can now browse and reserve seats for this flight";
+    public static final String ACCOUNT_CREATED =    "\nAccount Successfully Created!\n\nYou can now log into your new account to reserve and cancel seats for your next flight";
+    public static final String LOGIN_SUCCESS =      "\nLogin Successful";
+    public static final String LOGIN_FAILED =       "\nInvalid username or password.\n";
+    public static final String FLIGHTS_NOT_FOUND =  "\nSorry. No available seats matching your criterias were found.\n\n" + "To solve this you can try  the following:\n" + "\n-Different departure\n-Different destination" + "\n-Change the amount of tickets" + "\n\nIf none of the above works and you are sure flights should be available, " + "please contact the administrator.";
+    public static final String LOGS_FOUND =         "\nSuccessfully fetched system logs";
+    public static final String RESERVATIONS_FOUND = "\nReservations found";
+    public static final String NEW_FLIGHT_ADDED =   "\nSuccessfully created new flight record!\n\nCustomers can now browse and reserve seats for this flight";
 
     // base SQL actions
     public static final String CREATE =             "CREATE TABLE ";

@@ -101,7 +101,7 @@ public class Query {
                 " \"" + destination + "\"," +
                 " \"" + time + "\"," +
                 " \"" + capacity + "\", " +
-                " \"" + price + ", " +
+                " \"" + price + "\", " +
                 "0);";
     }
 
@@ -328,7 +328,7 @@ public class Query {
         catch (SQLiteException e) {
 
             // catch and display potensial errors
-            MAP.put(false, Actions.DEFAULT_ERROR + "Flight Number already exists. ");
+            MAP.put(false, Actions.DEFAULT_ERROR + "\nFlight Number already exists. \n");
             return MAP;
         }
 
