@@ -1,5 +1,10 @@
 package flg.flightreservationsystem.src;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class LogEntry {
 
     private int entryID;
@@ -32,11 +37,20 @@ public class LogEntry {
 
     @Override
     public String toString() {
-        return "LogEntry{" +
-                "entryID=" + entryID +
-                ", type='" + type + '\'' +
-                ", timestamp=" + timestamp +
-                ", cusomterID=" + username +
-                '}';
+        return  "Log Type: " + type +
+                "\nTransaction Date: " + timestamp.substring(0, 10) +
+                "\nTransaction Time: " + timestamp.substring(11, 16) + getDateMarker() + "\n";
+    }
+
+    private String getDateMarker() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date date = null;
+        try {
+            date = dateFormat.parse(timestamp);
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return " (" + new SimpleDateFormat("aa").format(date) + ")";
     }
 }

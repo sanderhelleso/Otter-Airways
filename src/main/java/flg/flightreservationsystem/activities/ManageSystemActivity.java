@@ -71,7 +71,10 @@ public class ManageSystemActivity extends AppCompatActivity {
         // create list of logs
         String[] systemLogs = new String[logs.size()];
         for (int i = 0; i < logs.size(); i++) {
-            systemLogs[i] = logs.get(i).getTimestamp();
+            systemLogs[i] = "\nLog Entry #" + logs.get(i).getEntryID() +
+                            "\nCustomer's Username: " +
+                            logs.get(i).getUsername() + "\n" +
+                            logs.get(i).toString();
         }
 
         // set list with available flight options
