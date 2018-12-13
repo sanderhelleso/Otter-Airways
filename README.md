@@ -11,10 +11,13 @@ Android Application for flight reservation system written as the final project f
   <img src="https://github.com/sanderhelleso/flightReservationSystem/blob/master/preview/Screenshot_1544675872.png" alt="app gif" width=250>
 </p>
 <br>
-<br>
 
-## Test Cases
-* Passing All Test Cases
+## Test And Use Cases
+* Passing All Test Cases (15/15)
+<ul>
+* <li><a href="https://github.com/sanderhelleso/flightReservationSystem/blob/master/testcases/project2_part2.pdf">Test Cases</a></li>
+* <li><a href="https://github.com/sanderhelleso/flightReservationSystem/blob/master/testcases/project2_part3_testcases_sanderhellesoe.doc.pdf">Test Case Reult</a></li>
+</ul>
 
 ## Features
 * Create Account
