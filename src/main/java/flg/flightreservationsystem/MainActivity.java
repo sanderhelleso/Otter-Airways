@@ -1,3 +1,12 @@
+
+/**
+ * @title Project 2 Part 3
+ * @abstract: Driver code for project. Simulates a flight reservation system
+ * @author Sander Hellesoe
+ * @date 12/12/2018
+ */
+
+
 package flg.flightreservationsystem;
 
 import android.content.Intent;
@@ -14,8 +23,6 @@ import flg.flightreservationsystem.activities.ReserveSeatActivity;
 import flg.flightreservationsystem.database.Database;
 
 public class MainActivity extends AppCompatActivity {
-
-    // load database
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
