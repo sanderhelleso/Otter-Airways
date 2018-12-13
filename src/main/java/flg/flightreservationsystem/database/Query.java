@@ -86,6 +86,11 @@ public class Query {
                 "ON " + Actions.LOGS_TABLE + ".user = " + Actions.CUSTOMERS_TABLE + ".customer_id;";
     }
 
+    // get latest reservation ID
+    public String getReservationID() {
+        return "SELECT MAX(reservation_id) FROM " + Actions.RESERVATIONS_TABLE + ";";
+    }
+
     // check for flight number query
     public String createNewFlight(
             final String flightNumber,
@@ -452,6 +457,40 @@ public class Query {
                     Actions.CONTACT_ADMIN, flights)
             );
             return MAP;
+        }
+
+        // close connection and cursor
+        finally {
+            db.close();
+            cursor.close();
+        }
+    }
+
+    public int getLatestReservationID(String stmt, Database db) {
+
+        // id
+        int id = 0;
+
+        // validate query statement
+        if (checkInjection(stmt)) {
+            return -1;
+        }
+
+        // create cursor and run query
+        final Cursor cursor = db.getReadableDatabase().rawQuery(stmt, null);
+
+        // attempt to perform query
+        try {
+
+            if (cursor.moveToFirst()) {
+                id = cursor.getString(0) == null ? 0 : Integer.parseInt(cursor.getString(0));
+            }
+
+            return id;
+        }
+
+        catch (SQLiteException e) {
+            throw e;
         }
 
         // close connection and cursor

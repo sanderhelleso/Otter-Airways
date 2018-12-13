@@ -25,7 +25,7 @@ public class Statement {
                     TYPE +
                     TIMESTAMP +
                     USER +
-                    MESSAGE +
+                        MESSAGE +
                 ");";
 
     }

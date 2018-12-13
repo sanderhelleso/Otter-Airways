@@ -44,6 +44,6 @@ public class LogEntry  {
     public String toString() {
         return  "Log Type: " + type +
                 "\nTransaction Date: " + timestamp.substring(0, 10) +
-                "\nTransaction Time: " + timestamp.substring(11, 16) + " " +UTIL.getDateMarker(timestamp) + "\n";
+                "\nTransaction Time: " + UTIL.getDateMarker(timestamp) + "\n";
     }
 }

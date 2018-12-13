@@ -215,14 +215,17 @@ public class ReserveSeatActivity extends AppCompatActivity {
                 flight.getPrice() * ticketAmount)
         );
 
-        // build message with price per ticket and total price
+        // fetch the new reservation ID
+        int reservationID = query.getLatestReservationID(query.getReservationID(), db) + 1;
 
+        // build message with price per ticket and total price
         StringBuilder message = new StringBuilder("Username: ").append(customerUN);
         message.append(flight.toString());
         message.append("\nPrice: per ticket: $");
         message.append(df.format(flight.getPrice()));
         message.append("\nAmount of tickets: ");
         message.append(ticketAmount);
+        message.append("\nReservation Number: " + reservationID);
         message.append("\n\n\nTotal Price: $").append(df.format(totalPrice)).append("\n");
 
         // set built message
