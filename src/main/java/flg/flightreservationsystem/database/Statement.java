@@ -15,7 +15,8 @@ public class Statement {
         final String ID =           "entry_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ";
         final String TYPE =         "type VARCHAR(40) NOT NULL, ";
         final String TIMESTAMP =    "timestamp DATETIME NOT NULL, ";
-        final String USER =         "user INTEGER NOT NULL";
+        final String USER =         "user INTEGER NOT NULL, ";
+        final String MESSAGE =      "message VARCHAR(255) NULL";
 
         // create log table and return statement
         return Actions.CREATE + Actions.LOGS_TABLE +
@@ -24,6 +25,7 @@ public class Statement {
                     TYPE +
                     TIMESTAMP +
                     USER +
+                    MESSAGE +
                 ");";
 
     }

@@ -4,8 +4,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -82,7 +80,8 @@ public class ManageSystemActivity extends AppCompatActivity {
             systemLogs[i] = "\nLog Entry #" + logs.get(i).getEntryID() +
                             "\nCustomer's Username: " +
                             logs.get(i).getUsername() + "\n" +
-                            logs.get(i).toString();
+                            logs.get(i).toString()  +
+                            logs.get(i).getMessage().replaceAll("_", "\n");
         }
 
         // set list with available flight options

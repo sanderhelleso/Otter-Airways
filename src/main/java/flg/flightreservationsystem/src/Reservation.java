@@ -62,12 +62,21 @@ public class Reservation extends Flight {
         );
 
         return "\n\nUsername: " + username + "\n" +
-                "Flight Name: " + getFlightName() + "\n" +
+                "Flight Number: " + getFlightName() + "\n" +
                 "Departure: " + getDeparture() + "\n" +
                 "Destination: " + getDestination() + "\n" +
                 "Departure Time: " + UTIL.getDateMarkerFromHourMin(getTime()) + "\n" +
                 "Price per ticket: " + df.format(getPrice()) + "$\n" +
                 "Amount of tickets: " + getSeats() + "\n\n\n" +
                 "Total Price: $" + df.format(totalPrice) + "\n";
+    }
+
+    public String logMessage() {
+        return  "Flight Number: " + getFlightName() + "_" +
+                "Departure: " + getDeparture() + "_" +
+                "Destination: " + getDestination() + "_" +
+                "Departure Time: " + UTIL.getDateMarkerFromHourMin(getTime()) + "_" +
+                "Number of Tickets: " + getSeats() + "_" +
+                "Reservation Number: " + getReservationID() + "_";
     }
 }

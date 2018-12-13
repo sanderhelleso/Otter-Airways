@@ -29,12 +29,16 @@ public class Trigger {
 
     }
 
-    public String cancelReservation() {
+    /*public String cancelReservation() {
         return  "CREATE TRIGGER cancel_reservation AFTER DELETE ON " +
                 "reservations BEGIN INSERT INTO logs " +
-                "(type, timestamp, user) " +
-                "VALUES ('Cancellation', datetime('NOW'), OLD.customer_id); " +
+                "(type, timestamp, user, message) " +
+                "VALUES ('Cancellation', datetime('NOW'), OLD.customer_id, " +
+                "CONCAT('Flight Number: ', OLD.name, " +
+                "'_Departure: ', OLD.departure, " +
+                "'_Destination: ', OLD.destination, " +
+                "''); " +
                 "END;";
 
-    }
+    }*/
 }

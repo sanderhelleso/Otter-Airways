@@ -208,6 +208,12 @@ public class CancelReservationActivity extends AppCompatActivity {
 
     private void cancelReservation() {
 
+        // log cancellation
+        query.write(query.logCancellation(
+                reservation.getCustomerID(),
+                reservation.logMessage()), db
+        );
+
         // delete reservation from customer
         query.write(query.removeCustomerReservation(
                 reservation.getReservationID()), db

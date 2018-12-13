@@ -105,6 +105,11 @@ public class Query {
                 "0);";
     }
 
+    public String logCancellation(final int customerID, final String message) {
+        return  Actions.INSERT_INTO + Actions.LOGS_TABLE + Actions.LOGS_COLUMNS +
+                " VALUES ('Cancellation', " + "DATETIME('NOW'), \"" + customerID + "\", \"" + message + "\");";
+    }
+
 
     private boolean checkInjection(String query) {
         return query.contains("\"; ");
@@ -138,9 +143,10 @@ public class Query {
                     final String type = cursor.getString(cursor.getColumnIndex("type"));
                     final String timestamp = cursor.getString(cursor.getColumnIndex("timestamp"));
                     final String username = cursor.getString(cursor.getColumnIndex("username"));
+                    final String message = cursor.getString(cursor.getColumnIndex("message"));
 
                     // add log to list
-                    LOGS.add(new LogEntry(entryID, type, timestamp, username));
+                    LOGS.add(new LogEntry(entryID, type, timestamp, username, message));
 
                     // move to reservation flight
                     cursor.moveToNext();

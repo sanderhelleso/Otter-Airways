@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import flg.flightreservationsystem.R;
+import flg.flightreservationsystem.database.Actions;
 import flg.flightreservationsystem.database.Database;
 import flg.flightreservationsystem.database.Query;
 import flg.flightreservationsystem.src.Flight;
@@ -112,6 +113,12 @@ public class ReserveSeatActivity extends AppCompatActivity {
             // set ticket amount
             this.ticketAmount = Integer.parseInt(ticketAmount);
 
+            // validate ticket amount (not allowed to reserve more than 7 tickets per reservation)
+            if (this.ticketAmount > 7) {
+                message(Actions.INVALID_SEATS, false);
+                return;
+            }
+
             // attempt to find available seats
             final HashMap<Boolean, Map.Entry<String, ArrayList<Flight>>> RESULT = query.flight(
                     query.findAvailableSeats(seatsFrom, seatsTo, ticketAmount), db);
@@ -177,7 +184,9 @@ public class ReserveSeatActivity extends AppCompatActivity {
         });
 
         // set "Cancel" button
-        builder.setNegativeButton("Cancel", null);
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
+            selectedFlightIndex = 0;
+        });
 
         // create and show the dialog
         AlertDialog dialog = builder.create();

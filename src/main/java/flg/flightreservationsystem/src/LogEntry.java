@@ -10,12 +10,14 @@ public class LogEntry  {
     private String type;
     private String timestamp;
     private String username;
+    private String message;
 
-    public LogEntry (int entryID, String type, String timestamp, String username) {
+    public LogEntry(int entryID, String type, String timestamp, String username, String message) {
         this.entryID = entryID;
         this.type = type;
         this.timestamp = timestamp;
         this.username = username;
+        this.message = message;
     }
 
     public int getEntryID() {
@@ -32,6 +34,10 @@ public class LogEntry  {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getMessage() {
+        return message == null ? "" : message;
     }
 
     @Override

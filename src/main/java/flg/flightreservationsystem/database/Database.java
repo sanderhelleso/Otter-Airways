@@ -43,7 +43,7 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(TRIGGER.newCustomer());
         db.execSQL(TRIGGER.newReservation());
         db.execSQL(TRIGGER.newFlight());
-        db.execSQL(TRIGGER.cancelReservation());
+        //db.execSQL(TRIGGER.cancelReservation());
 
         // log that database was created
         Log.i("DB_CREATED", "Database created...");

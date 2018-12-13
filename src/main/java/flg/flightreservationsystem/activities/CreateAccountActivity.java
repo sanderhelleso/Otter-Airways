@@ -19,13 +19,16 @@ import flg.flightreservationsystem.helpers.Validate;
 public class CreateAccountActivity extends AppCompatActivity {
 
     // instantiate database
-    Database db = new Database(this);
+    private final Database db = new Database(this);
 
     // instantiate query
-    Query query = new Query();
+    private final Query query = new Query();
 
     // instantiate validator
-    Validate validate = new Validate();
+    private final Validate validate = new Validate();
+
+    // user attempts
+    private int attempts = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +82,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                 Boolean success = entry.getKey();
                 String message = entry.getValue();
 
-                Log.i("ERROR", "STATUS: " + success + " - MESSAGE: " + message);
+                // display message
                 message(message, success);
             }
 
@@ -121,7 +124,12 @@ public class CreateAccountActivity extends AppCompatActivity {
         message(message.toString(), false);
     }
 
-    private void message(final String message, final Boolean success) {
+    private void message(String message, final Boolean success) {
+
+        if (!success) {
+            attempts--;
+            message += "\n\nAttempts Left: " + attempts;
+        }
 
         // prevent alert from dissmissing on outside click
         this.setFinishOnTouchOutside(false);
@@ -143,7 +151,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                 // create "confirm" button and event
                 .setPositiveButton("Confirm", (di, id) -> {
-                    if (success) {
+                    if (success || attempts == 0) {
                         finish();
                     }
                 })
