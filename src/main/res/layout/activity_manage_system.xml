@@ -39,14 +39,14 @@
 
     <EditText
         android:id="@+id/newFlightNumber"
-        android:layout_width="181dp"
+        android:layout_width="194dp"
         android:layout_height="40dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Flight Number"
+        android:hint="Flight Number (ex Otter205)"
         android:inputType="textPersonName"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -58,14 +58,14 @@
 
     <EditText
         android:id="@+id/newFlightDeparture"
-        android:layout_width="181dp"
+        android:layout_width="194dp"
         android:layout_height="40dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Departure"
+        android:hint="Departure (ex Monterey)"
         android:inputType="textPersonName"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -77,14 +77,14 @@
 
     <EditText
         android:id="@+id/newFlightDestination"
-        android:layout_width="186dp"
+        android:layout_width="194dp"
         android:layout_height="40dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Destination"
+        android:hint="Destination (ex Seattle)"
         android:inputType="textPersonName"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -95,57 +95,58 @@
         app:layout_constraintVertical_bias="0.423" />
 
     <EditText
-        android:id="@+id/newFlightTime"
-        android:layout_width="186dp"
+        android:id="@+id/newFlightPrice"
+        android:layout_width="194dp"
         android:layout_height="40dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Depature Time"
-        android:inputType="textPersonName"
+        android:hint="Flgiht Price (ex 125.50)"
+        android:inputType="numberDecimal"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.54" />
+        app:layout_constraintVertical_bias="0.761" />
 
     <EditText
         android:id="@+id/newFlightCapacity"
-        android:layout_width="186dp"
+        android:layout_width="194dp"
         android:layout_height="40dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Flight Capacity"
-        android:inputType="textPersonName"
+        android:hint="Flight Capacity (ex 25)"
+        android:inputType="number"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.653" />
+        app:layout_constraintVertical_bias="0.647" />
 
     <EditText
-        android:id="@+id/newFlightPrice"
-        android:layout_width="186dp"
+        android:id="@+id/newFlightTime"
+        android:layout_width="194dp"
         android:layout_height="40dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Price per Ticket"
-        android:inputType="textPersonName"
+        android:hint="Flight Time (ex 1400)"
+        android:inputType="number"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.767" />
+        app:layout_constraintVertical_bias="0.534" />
 
 </android.support.constraint.ConstraintLayout>
